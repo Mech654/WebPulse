@@ -1,5 +1,21 @@
 # WebPulse
 
+
+
+
+# Project Idea
+
+WebPulse is a local app built using WPF and .NET, designed to keep users updated on content like TV series episodes, e-books, mangas, and similar types of media. The app offers a flexible approach to monitoring content across a wide range of websites, including small, unknown, and even less reliable sites. This is made possible by allowing users to set up monitoring tasks in ways that best fit their needs.
+
+When setting up a monitoring task, users can choose between two options:
+
+1. Provide a URL and specify the variable part of the URL (e.g., the dynamic episode number).
+2. Supply JavaScript code that WebPulse can run to change the page, such as triggering a "Next" button to navigate.
+
+At its core, WebPulse uses the Puppeteer library to perform web scraping, allowing it to fetch and track content updates from the specified websites. This approach ensures that users can monitor a wide variety of online content with minimal effort, regardless of how the website is structured.
+
+
+
 # Project Roadmap
 
 <!-- GUI part of the WebPulse project, covering front-end features and instructions -->
