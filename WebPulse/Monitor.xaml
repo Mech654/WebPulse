@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,40,40,0">
-            <Button Width="50" Height="50" Background="#9394A5" BorderBrush="DarkBlue" BorderThickness="2">
+            <Button Width="50" Height="50" Background="#9394A5" BorderBrush="DarkBlue" BorderThickness="2" HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Width="50" Height="50" CornerRadius="25">
@@ -22,13 +22,13 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-
-
-
         </Grid>
 
-        <Grid Grid.Row="1" Background="Green">
-            <TextBlock Text="This is the second row" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="20"/>
+        <Grid Grid.Row="1" >
+            <StackPanel Background="Red" Margin="50,50,50,20">
+                <ListBox  x:Name="DynamicListBox" Width="auto" Height="auto"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
+<!-- Left, Top, Right, Bottom -->

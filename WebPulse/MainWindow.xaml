@@ -52,5 +52,9 @@
         </StackPanel>
 
         <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA"/>
+
+        
+
     </Grid>
+    
 </Window>
