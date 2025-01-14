@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebPulse"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1500">
+        Title="MainWindow" Height="700" Width="1000">
+
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="#484B6A" />
@@ -13,6 +14,7 @@
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="#484B6A" />
         </Style>
+        <SolidColorBrush x:Key="TextColor" Color="#484B6A" />
     </Window.Resources>
 
     <Grid>
@@ -22,118 +24,33 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Background="#E4E5F1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Image Source="\resources\logo.png" Width="300" Height="300" />
-
-            <!-- Welcome Text -->
-            <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20">
+            <Image Source="\resources\logo.png" HorizontalAlignment="Center" Width="Auto" Height="Auto" MaxWidth="300" MaxHeight="300" />
+            <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20">
                 Welcome to WebPulse!
             </TextBlock>
 
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,150,0,0">
+            <Button Click="Home_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,10">
                 <Button.Content>
                     <TextBlock Text="Home" Foreground="#484B6A"/>
                 </Button.Content>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
             </Button>
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0">
+            <Button Click="Monitor_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,10">
+                <Button.Content>
+                    <TextBlock Text="Monitors" Foreground="#484B6A"/>
+                </Button.Content>
+            </Button>
+            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,10">
                 <Button.Content>
                     <TextBlock Text="Settings" Foreground="#484B6A"/>
                 </Button.Content>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
             </Button>
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0">
-                <Button.Content>
-                    <TextBlock Text="Profile" Foreground="#484B6A"/>
-                </Button.Content>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0">
+            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,10">
                 <Button.Content>
                     <TextBlock Text="Help" Foreground="#484B6A"/>
                 </Button.Content>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
             </Button>
         </StackPanel>
 
-        <Grid Grid.Column="1" Background="#FAFAFA">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="0.3*"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0">
-                    <Border Grid.Row="0" BorderThickness="1" CornerRadius="10" Width="300" Height="200" Background="#9394A5" Margin="0,50,0,0" Opacity="0.5">
-                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        </StackPanel>
-                    </Border>
-                </Grid>
-
-                <Grid Grid.Column="1">
-                    <Border Grid.Row="0" BorderThickness="1" CornerRadius="10" Width="300" Height="200" Background="#9394A5" Margin="0,50,0,0" Opacity="0.5">
-                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        </StackPanel>
-                    </Border>
-                </Grid>
-
-                <Grid Grid.Column="2">
-                    <Border Grid.Row="0" BorderThickness="1" CornerRadius="10" Width="300" Height="200" Background="#9394A5" Margin="0,50,0,0" Opacity="0.5">
-                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Border BorderThickness="1" CornerRadius="10" Width="auto" Height="auto" Background="#9394A5" Margin="50,50,50,50" Opacity="0.5">
-                    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-
-
-        </Grid>
+        <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA"/>
     </Grid>
 </Window>

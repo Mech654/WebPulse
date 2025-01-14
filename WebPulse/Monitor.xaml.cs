@@ -16,25 +16,13 @@ using System.Windows.Shapes;
 namespace WebPulse
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Monitor.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Monitor : UserControl
     {
-        public MainWindow()
+        public Monitor()
         {
             InitializeComponent();
-            MainContent.Content = new Home();
-        }
-
-
-        private void Home_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new Home(); // Load Home UserControl
-        }
-
-        private void Monitor_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new Monitor();
         }
     }
 }
