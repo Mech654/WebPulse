@@ -25,7 +25,7 @@
         </Grid>
 
         <Grid Grid.Row="1" >
-            <StackPanel Background="Red" Margin="50,50,50,20">
+            <StackPanel Margin="50,50,50,20">
                 <ListBox  x:Name="DynamicListBox" Width="auto" Height="auto"/>
             </StackPanel>
         </Grid>
