@@ -29,6 +29,110 @@
                 <ListBox  x:Name="DynamicListBox" Width="auto" Height="auto"/>
             </StackPanel>
         </Grid>
+        <Canvas x:Name="setupPage" Visibility="Visible" Width="400" MinHeight="400" Height="Auto" Margin="10,100,100,100">
+            <Border Background="Bisque" CornerRadius="20" 
+            Width="400" MinHeight="400" Height="Auto">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="3" Color="Gray"/>
+                </Border.Effect>
+                <StackPanel Background="Transparent" Width="400" Height="Auto">
+                    <Grid Width="390" Height="Auto">
+
+                        <TextBlock Text="Setup" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"
+                           FontSize="24" 
+                           FontWeight="Bold"/>
+
+                        <Button Click="Exit_Setup" Content="X" Background="IndianRed" Width="30" Height="30" HorizontalAlignment="Right" Margin="10"/>
+                    </Grid>
+
+                    <StackPanel x:Name="ChoicePage" Visibility="Visible">
+                        <TextBlock Text="Choose how you would prefer to track" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+
+                        <Grid Width="300" Height="50" Margin="50,125,50,50">
+                            <Button Click="URL_Setup"  Width="100" Height="50" HorizontalAlignment="Left" Background="#4A90E2" 
+                            Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                            BorderBrush="#FFFFFF" Content="URL">
+                                <Button.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                                </Button.Effect>
+                            </Button>
+
+                            <Button Width="100" Height="50" HorizontalAlignment="Right" Background="#4A90E2" 
+                            Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                            BorderBrush="#FFFFFF" Content="Code">
+                                <Button.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                                </Button.Effect>
+                            </Button>
+                        </Grid>
+                        <TextBlock HorizontalAlignment="Center" Text="*URL method is recommened if possible*" VerticalAlignment="Bottom"/>
+                        <TextBlock HorizontalAlignment="Center">
+                    <Hyperlink NavigateUri="https://example.com" Foreground="RoyalBlue">
+                        HELP
+                    </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel x:Name="URL" Visibility="Collapsed">
+                        <TextBlock TextWrapping="Wrap" Text="Enter the URL with '*' surrounding the variable" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <TextBlock TextWrapping="Wrap" Text="https://example.com/episode/*1*" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+
+                        <TextBox x:Name="URL_Field" Width="300" Height="50" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <Button Click="Validiate_URL"  Width="100" Height="50" HorizontalAlignment="Center" Background="#4A90E2" 
+                        Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                        BorderBrush="#FFFFFF" Content="Submit" Margin="0,50,0,0">
+                            <Button.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                            </Button.Effect>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel x:Name="namePage" Visibility="Collapsed">
+                        <TextBlock Text="Enter the name of the setup" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <TextBox x:Name="name" Width="300" Height="50" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <Button Click="NameSetup" Width="100" Height="50" HorizontalAlignment="Center" Background="#4A90E2" 
+                        Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                        BorderBrush="#FFFFFF" Content="Submit" Margin="0,50,0,0">
+                            <Button.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                            </Button.Effect>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- How fast should it refresh. make a combobox after the input field so user can say which time format it is, minutes, hours, days, weeks, -->
+                    <StackPanel x:Name="refreshPage" Visibility="Collapsed">
+                        <TextBlock Text="Enter the refresh rate" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <TextBox x:Name="refreshrate" Width="300" Height="50" HorizontalAlignment="Center" Margin="0,50,0,0" FontSize="25"/>
+                        <ComboBox x:Name="timeUnit" Width="70" Height="30" HorizontalAlignment="Center" Margin="0,50,0,0">
+                            <ComboBoxItem>Minutes</ComboBoxItem>
+                            <ComboBoxItem>Hours</ComboBoxItem>
+                            <ComboBoxItem>Days</ComboBoxItem>
+                            <ComboBoxItem>Weeks</ComboBoxItem>
+                        </ComboBox>
+                        <Button Click="RefreshSetup" Width="100" Height="50" HorizontalAlignment="Center" Background="#4A90E2" 
+                        Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                        BorderBrush="#FFFFFF" Content="Submit" Margin="0,50,0,0">
+                            <Button.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                            </Button.Effect>
+                        </Button>
+                    </StackPanel>
+                    <!-- success page-->
+                    <StackPanel x:Name="successPage" Visibility="Collapsed">
+                        <TextBlock Text="Setup Complete" FontSize="20" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        <Button Click="Exit_Setup" Width="100" Height="50" HorizontalAlignment="Center" Background="#4A90E2" 
+                        Foreground="White" FontWeight="SemiBold" BorderThickness="1" 
+                        BorderBrush="#FFFFFF" Content="Exit" Margin="0,50,0,0">
+                            <Button.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="4" Color="Black" Opacity="0.4"/>
+                            </Button.Effect>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Canvas>
+
     </Grid>
 </UserControl>
-<!-- Left, Top, Right, Bottom -->
