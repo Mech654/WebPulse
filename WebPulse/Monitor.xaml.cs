@@ -13,20 +13,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
+using System.IO;
+using System.Reflection;
+using System.Net.Http;
 
 namespace WebPulse
 {
-    /// <summary>
-    /// Interaction logic for Monitor.xaml
-    /// </summary>
     public partial class Monitor : UserControl
     {
         Dictionary<string, string> setupConfigItems = new Dictionary<string, string>();
+
         public Monitor()
         {
             InitializeComponent();
         }
-        //remember, always make earlier page visibility collapsed
+
         private void Exit_Setup(object sender, RoutedEventArgs e)
         {
             this.setupPage.Visibility = Visibility.Collapsed;
@@ -38,41 +40,36 @@ namespace WebPulse
             this.URL.Visibility = Visibility.Visible;
         }
 
-        private void Validiate_URL(object sender, RoutedEventArgs e)
+        private async void Validiate_URL(object sender, RoutedEventArgs e)
         {
-            // Get the URL from the TextBox
             string url = this.URL_Field.Text;
-            string cleanedUrl = url.Replace("*", ""); // Remove '*' characters
+            string cleanedUrl = url.Replace("*", "");
 
-            // Check if the cleaned URL starts with "http://" or "https://"
             if (cleanedUrl.StartsWith("http://") || cleanedUrl.StartsWith("https://"))
             {
                 try
                 {
-                    // Attempt to open the URL in the default browser
-                    Process.Start(new ProcessStartInfo
+                    bool isValid = await CheckUrlValidityAsync(cleanedUrl);
+                    if (isValid)
                     {
-                        FileName = cleanedUrl,
-                        UseShellExecute = true // Ensures the URL opens in the default browser
-                    });
-                    setupConfigItems.Add("Method", "urlbased");
-                    setupConfigItems.Add("url", url);
-                    setupConfigItems.Add("cleaned", cleanedUrl);
-                    this.URL.Visibility = Visibility.Collapsed;
-                    this.namePage.Visibility = Visibility.Visible;
-
-
+                        setupConfigItems.Add("Method", "urlbased");
+                        setupConfigItems.Add("url", url);
+                        setupConfigItems.Add("cleaned", cleanedUrl);
+                        this.URL.Visibility = Visibility.Collapsed;
+                        this.namePage.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        this.URL_Field.Text = "Invalid URL. Please try again.";
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // If there is an error opening the URL, set the TextBox to an error message
                     this.URL_Field.Text = "Failed to open the URL. Please try again.";
                 }
-                
             }
             else
             {
-                // If the URL doesn't start with "http://" or "https://", show a message
                 this.URL_Field.Text = "Please enter a valid URL starting with http:// or https://.";
             }
         }
@@ -92,7 +89,6 @@ namespace WebPulse
             }
         }
 
-
         private void RefreshSetup(object sender, RoutedEventArgs e)
         {
             string refresh = this.refreshrate.Text;
@@ -108,9 +104,9 @@ namespace WebPulse
                     this.name.Text = "";
                     this.refreshrate.Text = "";
                     this.timeUnit.SelectedIndex = -1;
-                    this.setupConfigItems.Clear();
                     this.refreshPage.Visibility = Visibility.Collapsed;
                     this.successPage.Visibility = Visibility.Visible;
+                    SaveJson();
                 }
                 else
                 {
@@ -120,7 +116,66 @@ namespace WebPulse
             else
             {
                 this.refreshrate.Text = "Please enter a valid number.";
+            }
+        }
 
+        private void SaveJson()
+        {
+            try
+            {
+                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\jsonn\\SetupJson.json";
+                Debug.WriteLine("File path: " + path);
+
+                string directory = System.IO.Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                List<Dictionary<string, string>> jsonList = new List<Dictionary<string, string>>();
+
+                if (File.Exists(path))
+                {
+                    string existingJson = File.ReadAllText(path);
+                    jsonList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(existingJson);
+                }
+
+                jsonList.Add(new Dictionary<string, string>(setupConfigItems));
+
+                string json = JsonConvert.SerializeObject(jsonList, Formatting.Indented);
+
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving the setup configuration: " + ex.Message);
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        private async Task<bool> CheckUrlValidityAsync(string cleanedUrl)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(cleanedUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Valid URL.");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Invalid URL.");
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error checking URL: " + ex.Message);
+                return false;
             }
         }
     }

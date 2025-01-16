@@ -1,1 +1,7 @@
 .vs/
+# Ignore packages folder
+/packages/
+
+# Ignore build outputs
+/bin/
+/obj/

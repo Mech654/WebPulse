@@ -1,0 +1,26 @@
+[
+  {
+    "Method": "urlbased",
+    "url": "https://www.google.com/",
+    "cleaned": "https://www.google.com/",
+    "name": "g",
+    "refresh": "1",
+    "timeunit": "Days"
+  },
+  {
+    "Method": "urlbased",
+    "url": "https://www.google.com/",
+    "cleaned": "https://www.google.com/",
+    "name": "google",
+    "refresh": "3",
+    "timeunit": "Hours"
+  },
+  {
+    "Method": "urlbased",
+    "url": "https://www.google.com/",
+    "cleaned": "https://www.google.com/",
+    "name": "efe",
+    "refresh": "7",
+    "timeunit": "Days"
+  }
+]

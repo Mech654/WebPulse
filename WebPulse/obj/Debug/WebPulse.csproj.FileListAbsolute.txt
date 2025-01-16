@@ -48,3 +48,6 @@ C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse
 C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\obj\Debug\WebPulse.csproj.CoreCompileInputs.cache
 C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\obj\Debug\WebPulse.exe
 C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\obj\Debug\WebPulse.pdb
+C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ahme1636\OneDrive - Syddansk Erhvervsskole\Dokumenter\Webpulse\WebPulse\obj\Debug\WebPulse.csproj.Up2Date
