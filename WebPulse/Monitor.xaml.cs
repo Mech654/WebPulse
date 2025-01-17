@@ -178,5 +178,65 @@ namespace WebPulse
                 return false;
             }
         }
+
+        private void UpdateList()
+        {
+            try
+            {
+                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\jsonn\\SetupJson.json";
+
+                if (File.Exists(path))
+                {
+
+                    string existingJson = File.ReadAllText(path);
+
+
+                    var objects = JsonConvert.DeserializeObject<List<MyObject>>(existingJson);
+
+
+                    foreach (var obj in objects)
+                    {
+                        if (obj.Method == "urlbased")
+                        {
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating the list: " + ex.Message);
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+
+
+
+
+
+        private void UrlBasedMonitoring(List<MyObject> listObjects)
+        {
+
+        }
+
+
+
+
+
+
+
+
     }
+
+    public class MyObject
+    {
+        public string Method { get; set; }
+        public string Url { get; set; }
+        public string Cleaned { get; set; }
+        public string Name { get; set; }
+        public int Refresh { get; set; }
+        public string TimeUnit { get; set; }
+    }
+
 }
