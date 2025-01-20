@@ -27,6 +27,7 @@ namespace WebPulse
         public Monitor()
         {
             InitializeComponent();
+            UpdateList();
         }
 
         private void Exit_Setup(object sender, RoutedEventArgs e)
@@ -198,7 +199,7 @@ namespace WebPulse
                     {
                         if (obj.Method == "urlbased")
                         {
-
+                            URLBased(obj);
                         }
                     }
                 }
@@ -215,18 +216,20 @@ namespace WebPulse
 
 
 
-        private void UrlBasedMonitoring(List<MyObject> listObjects)
+        private void URLBased(MyObject listObject)
         {
+            var stackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Style = (Style)FindResource("CustomListStackpanelStyle"),
+            };
 
+            DynamicListBox.Items.Add(new ListBoxItem
+            {
+                Content = stackPanel,
+                Style = (Style)FindResource("CustomListBoxItemStyle"),
+            });
         }
-
-
-
-
-
-
-
-
     }
 
     public class MyObject
@@ -238,5 +241,4 @@ namespace WebPulse
         public int Refresh { get; set; }
         public string TimeUnit { get; set; }
     }
-
 }
