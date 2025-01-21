@@ -218,17 +218,40 @@ namespace WebPulse
 
         private void URLBased(MyObject listObject)
         {
-            var stackPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                Style = (Style)FindResource("CustomListStackpanelStyle"),
-            };
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Style = (Style)this.Resources["CustomStackPanelStyle"];
 
-            DynamicListBox.Items.Add(new ListBoxItem
-            {
-                Content = stackPanel,
-                Style = (Style)FindResource("CustomListBoxItemStyle"),
-            });
+
+            //make it so the grid's height is 100% of stackpanel
+            Grid grid = new Grid();
+            grid.Background = new SolidColorBrush(Colors.LightGray);
+            grid.Height = 100;
+
+            ColumnDefinition col1 = new ColumnDefinition();
+            col1.Width = new GridLength(1, GridUnitType.Star);
+            grid.ColumnDefinitions.Add(col1);
+
+            ColumnDefinition col2 = new ColumnDefinition();
+            col2.Width = new GridLength(2, GridUnitType.Star);
+            grid.ColumnDefinitions.Add(col2);
+
+
+            ColumnDefinition col3 = new ColumnDefinition();
+            col3.Width = new GridLength(1, GridUnitType.Star);
+            grid.ColumnDefinitions.Add(col3);
+
+            ColumnDefinition col4 = new ColumnDefinition();
+            col4.Width = new GridLength(1, GridUnitType.Star);
+            grid.ColumnDefinitions.Add(col4);
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = " AAAAAAAAAAAAAAAAAAAAA";
+            textBlock.FontSize = 16;
+            Grid.SetColumn(textBlock, 0);
+            grid.Children.Add(textBlock);
+
+            stackPanel.Children.Add(grid);
+            DynamicListBox.Children.Add(stackPanel);
         }
     }
 
