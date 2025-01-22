@@ -3,5 +3,6 @@
 /packages/
 
 # Ignore build outputs
-/bin/
-/obj/
+**/bin/
+**/obj/
+

@@ -3,7 +3,7 @@
     "Method": "urlbased",
     "url": "https://www.google.com/",
     "cleaned": "https://www.google.com/",
-    "name": "g",
+    "name": "g", 
     "refresh": "1",
     "timeunit": "Days"
   },

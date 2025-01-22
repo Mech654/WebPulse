@@ -226,6 +226,7 @@ namespace WebPulse
             Grid grid = new Grid();
             grid.Background = new SolidColorBrush(Colors.LightGray);
             grid.Height = 100;
+            grid.VerticalAlignment = VerticalAlignment.Stretch;
 
             ColumnDefinition col1 = new ColumnDefinition();
             col1.Width = new GridLength(1, GridUnitType.Star);
@@ -244,9 +245,18 @@ namespace WebPulse
             col4.Width = new GridLength(1, GridUnitType.Star);
             grid.ColumnDefinitions.Add(col4);
 
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = " AAAAAAAAAAAAAAAAAAAAA";
-            textBlock.FontSize = 16;
+            TextBlock textBlock = new TextBlock
+            {
+                Text = "AAAAAAAAAAAAAAAAAAAAA",
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 16,
+                Background = new SolidColorBrush(Colors.Red),
+                Padding = new Thickness(10)
+            };
+
+
+
+
             Grid.SetColumn(textBlock, 0);
             grid.Children.Add(textBlock);
 
