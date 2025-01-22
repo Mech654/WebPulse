@@ -29,6 +29,10 @@ namespace WebPulse
             InitializeComponent();
             UpdateList();
         }
+        private void Start_Setup(object sender, RoutedEventArgs e)
+        {
+            this.setupPage.Visibility = Visibility.Visible;
+        }
 
         private void Exit_Setup(object sender, RoutedEventArgs e)
         {
@@ -225,40 +229,68 @@ namespace WebPulse
             //make it so the grid's height is 100% of stackpanel
             Grid grid = new Grid();
             grid.Background = new SolidColorBrush(Colors.LightGray);
-            grid.Height = 100;
+            grid.Height = 80;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
 
             ColumnDefinition col1 = new ColumnDefinition();
-            col1.Width = new GridLength(1, GridUnitType.Star);
-            grid.ColumnDefinitions.Add(col1);
-
             ColumnDefinition col2 = new ColumnDefinition();
-            col2.Width = new GridLength(2, GridUnitType.Star);
-            grid.ColumnDefinitions.Add(col2);
-
-
             ColumnDefinition col3 = new ColumnDefinition();
-            col3.Width = new GridLength(1, GridUnitType.Star);
-            grid.ColumnDefinitions.Add(col3);
-
             ColumnDefinition col4 = new ColumnDefinition();
+
+            col1.Width = new GridLength(1, GridUnitType.Star);
+            col2.Width = new GridLength(1, GridUnitType.Star);
             col4.Width = new GridLength(1, GridUnitType.Star);
+            col3.Width = new GridLength(1, GridUnitType.Star);
+
+
+            grid.ColumnDefinitions.Add(col2);
+            grid.ColumnDefinitions.Add(col3);
+            grid.ColumnDefinitions.Add(col1);
             grid.ColumnDefinitions.Add(col4);
 
-            TextBlock textBlock = new TextBlock
+
+
+            TextBox textBlock = new TextBox
             {
+               
                 Text = "AAAAAAAAAAAAAAAAAAAAA",
+                Height = 100,
                 Foreground = new SolidColorBrush(Colors.Black),
-                FontSize = 16,
-                Background = new SolidColorBrush(Colors.Red),
+                FontSize = 12,
+                Background = Brushes.Transparent,
                 Padding = new Thickness(10)
             };
 
+            TextBox textBlock1 = new TextBox
+            {
+                Text = listObject.Url,
+                Height = 100,
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                Padding = new Thickness(10)
+            };
 
+            ComboBox combobox = new ComboBox
+            {
+                Height = 100,
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                Padding = new Thickness(10),
+                SelectedItem = listObject.Refresh // Ensure this value exists in ItemsSource
+            };
 
 
             Grid.SetColumn(textBlock, 0);
+            Grid.SetColumn(textBlock1, 1);
+            Grid.SetColumn(combobox, 2);
+
+
             grid.Children.Add(textBlock);
+            grid.Children.Add(textBlock1);
+            grid.Children.Add(combobox);
+
 
             stackPanel.Children.Add(grid);
             DynamicListBox.Children.Add(stackPanel);
