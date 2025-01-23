@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Reflection;
 using System.Net.Http;
+using System.Windows.Controls.Primitives;
+using System.Management.Instrumentation;
 
 namespace WebPulse
 {
@@ -225,76 +227,105 @@ namespace WebPulse
             StackPanel stackPanel = new StackPanel();
             stackPanel.Style = (Style)this.Resources["CustomStackPanelStyle"];
 
-
-            //make it so the grid's height is 100% of stackpanel
             Grid grid = new Grid();
             grid.Background = new SolidColorBrush(Colors.LightGray);
-            grid.Height = 80;
+            grid.Height = Double.NaN; // Let the grid adjust its height based on the StackPanel
             grid.VerticalAlignment = VerticalAlignment.Stretch;
+            
 
             ColumnDefinition col1 = new ColumnDefinition();
             ColumnDefinition col2 = new ColumnDefinition();
             ColumnDefinition col3 = new ColumnDefinition();
             ColumnDefinition col4 = new ColumnDefinition();
+            ColumnDefinition col5 = new ColumnDefinition();
 
             col1.Width = new GridLength(1, GridUnitType.Star);
             col2.Width = new GridLength(1, GridUnitType.Star);
-            col4.Width = new GridLength(1, GridUnitType.Star);
-            col3.Width = new GridLength(1, GridUnitType.Star);
-
+            col3.Width = new GridLength(0.5, GridUnitType.Star);
+            col4.Width = new GridLength(70, GridUnitType.Pixel); //make this one simply 100px instead
+            col5.Width = new GridLength(1.2, GridUnitType.Star);
 
             grid.ColumnDefinitions.Add(col2);
-            grid.ColumnDefinitions.Add(col3);
             grid.ColumnDefinitions.Add(col1);
+            grid.ColumnDefinitions.Add(col3);
             grid.ColumnDefinitions.Add(col4);
+            grid.ColumnDefinitions.Add(col5);
 
-
-
-            TextBox textBlock = new TextBox
+            TextBox name = new TextBox
             {
-               
-                Text = "AAAAAAAAAAAAAAAAAAAAA",
+                Text = listObject.Name,
                 Height = 100,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                TextAlignment = TextAlignment.Center,
                 Padding = new Thickness(10)
             };
 
-            TextBox textBlock1 = new TextBox
+            TextBox url = new TextBox
             {
                 Text = listObject.Url,
                 Height = 100,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 Background = Brushes.Transparent,
-                Padding = new Thickness(10)
+                Padding = new Thickness(10),
+                TextAlignment = TextAlignment.Center
             };
 
-            ComboBox combobox = new ComboBox
+            TextBox time = new TextBox
             {
+                Text = listObject.Refresh.ToString(),
                 Height = 100,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
-                SelectedItem = listObject.Refresh // Ensure this value exists in ItemsSource
+                TextAlignment = TextAlignment.Center
             };
 
+            ComboBox unit = new ComboBox
+            {
+                SelectedItem = listObject.TimeUnit,
+                Height = 100,
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 12,
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                Background = Brushes.Transparent,
+                Padding = new Thickness(10)
+            };
 
-            Grid.SetColumn(textBlock, 0);
-            Grid.SetColumn(textBlock1, 1);
-            Grid.SetColumn(combobox, 2);
+            
+            unit.Items.Add(listObject.TimeUnit);
+            unit.Items.Add("Minutes");
+            unit.Items.Add("Hours");
+            unit.Items.Add("Days");
+            unit.Items.Add("Weeks");
 
+            Grid.SetColumn(name, 0);
+            Grid.SetColumn(url, 1);
+            Grid.SetColumn(time, 2);
+            Grid.SetColumn(unit, 3);
 
-            grid.Children.Add(textBlock);
-            grid.Children.Add(textBlock1);
-            grid.Children.Add(combobox);
-
+            grid.Children.Add(name);
+            grid.Children.Add(url);
+            grid.Children.Add(time);
+            grid.Children.Add(unit);
 
             stackPanel.Children.Add(grid);
             DynamicListBox.Children.Add(stackPanel);
+
+            unit.Loaded += (s, e) =>
+            {
+                var popupContainer = (Popup)unit.Template.FindName("PART_Popup", unit);
+                if (popupContainer != null)
+                {
+                    popupContainer.PlacementTarget = unit;
+                    popupContainer.Placement = PlacementMode.Right;
+                }
+            };
         }
+
     }
 
     public class MyObject
