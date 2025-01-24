@@ -19,6 +19,9 @@ using System.Reflection;
 using System.Net.Http;
 using System.Windows.Controls.Primitives;
 using System.Management.Instrumentation;
+using System.Security.Policy;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WebPulse
 {
@@ -201,6 +204,7 @@ namespace WebPulse
                     var objects = JsonConvert.DeserializeObject<List<MyObject>>(existingJson);
 
 
+                    CreateListDescriptionGridAndItems();
                     foreach (var obj in objects)
                     {
                         if (obj.Method == "urlbased")
@@ -220,18 +224,114 @@ namespace WebPulse
 
 
 
+        private void CreateListDescriptionGridAndItems()
+        {
+           
+            Grid grid = new Grid();
+            grid.Height = Double.NaN;
+            grid.VerticalAlignment = VerticalAlignment.Stretch;
+            grid.Margin = new Thickness(10,10,10,10);
+
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.8, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(70, GridUnitType.Pixel) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+
+
+
+            TextBox nameField = new TextBox
+            {
+                Text = "Name",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextAlignment = TextAlignment.Center
+            };
+
+            TextBox urlField = new TextBox
+            {
+                Text = "URL/Code",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderThickness = new Thickness(0),
+                TextAlignment = TextAlignment.Center
+            };
+
+            TextBox timeField = new TextBox
+            {
+                Text = "Refresh",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextAlignment = TextAlignment.Center
+            };
+
+            TextBox unitField = new TextBox
+            {
+                Text = "Time Unit",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderThickness = new Thickness(0),
+                TextAlignment = TextAlignment.Center
+            };
+
+            TextBox remainingField = new TextBox
+            {
+                Text = "Remaining",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderThickness = new Thickness(0),
+                TextAlignment = TextAlignment.Center
+            };
+
+            TextBox buttonField = new TextBox
+            {
+                Text = "",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderThickness = new Thickness(0),
+                TextAlignment = TextAlignment.Center
+            };
+
+
+            Grid.SetColumn(nameField, 0);
+            Grid.SetColumn(urlField, 1);
+            Grid.SetColumn(timeField, 2);
+            Grid.SetColumn(unitField, 3);
+            Grid.SetColumn(remainingField, 4);
+            Grid.SetColumn(buttonField, 5);
+
+            grid.Children.Add(nameField);
+            grid.Children.Add(urlField);
+            grid.Children.Add(timeField);
+            grid.Children.Add(unitField);
+            grid.Children.Add(remainingField);
+            grid.Children.Add(buttonField);
+
+
+            DynamicListBox.Children.Add(grid);
+        }
 
 
         private void URLBased(MyObject listObject)
         {
-            StackPanel stackPanel = new StackPanel();
-            stackPanel.Style = (Style)this.Resources["CustomStackPanelStyle"];
+           
 
             Grid grid = new Grid();
-            grid.Background = new SolidColorBrush(Colors.LightGray);
-            grid.Height = Double.NaN; // Let the grid adjust its height based on the StackPanel
+            grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
-            
+            grid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+            grid.Margin = new Thickness(10, 10, 10, 10);
+
 
             ColumnDefinition col1 = new ColumnDefinition();
             ColumnDefinition col2 = new ColumnDefinition();
@@ -239,81 +339,128 @@ namespace WebPulse
             ColumnDefinition col4 = new ColumnDefinition();
             ColumnDefinition col5 = new ColumnDefinition();
 
-            col1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition col6 = new ColumnDefinition();
+            ColumnDefinition col7 = new ColumnDefinition();
+            ColumnDefinition col8 = new ColumnDefinition();
+
+            col1.Width = new GridLength(0.8, GridUnitType.Star);
             col2.Width = new GridLength(1, GridUnitType.Star);
             col3.Width = new GridLength(0.5, GridUnitType.Star);
-            col4.Width = new GridLength(70, GridUnitType.Pixel); //make this one simply 100px instead
+            col4.Width = new GridLength(70, GridUnitType.Pixel);
             col5.Width = new GridLength(1.2, GridUnitType.Star);
 
-            grid.ColumnDefinitions.Add(col2);
+            col6.Width = new GridLength(1, GridUnitType.Star);
+     
+            
+
             grid.ColumnDefinitions.Add(col1);
+            grid.ColumnDefinitions.Add(col2);
             grid.ColumnDefinitions.Add(col3);
             grid.ColumnDefinitions.Add(col4);
             grid.ColumnDefinitions.Add(col5);
+            grid.ColumnDefinitions.Add(col6);
+
 
             TextBox name = new TextBox
             {
                 Text = listObject.Name,
-                Height = 100,
+                BorderThickness = new Thickness(0),
+                Height = 40,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
-                Background = Brushes.Transparent,
                 TextAlignment = TextAlignment.Center,
-                Padding = new Thickness(10)
+                Padding = new Thickness(2),
+                VerticalAlignment = VerticalAlignment.Top,
+                TextWrapping = TextWrapping.Wrap,
+                MaxLines = 2,
+                TextDecorations = TextDecorations.Underline,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center
+
             };
 
             TextBox url = new TextBox
             {
                 Text = listObject.Url,
-                Height = 100,
+                BorderThickness = new Thickness(0),
+                Height = 40,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
-                TextAlignment = TextAlignment.Center
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
             };
 
             TextBox time = new TextBox
             {
                 Text = listObject.Refresh.ToString(),
-                Height = 100,
+                BorderThickness = new Thickness(0),
+                Height = 40,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
-                TextAlignment = TextAlignment.Center
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
             };
 
             ComboBox unit = new ComboBox
             {
                 SelectedItem = listObject.TimeUnit,
-                Height = 100,
+                BorderThickness = new Thickness(0),
+                Height = 40,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
                 HorizontalContentAlignment = HorizontalAlignment.Left,
                 Background = Brushes.Transparent,
-                Padding = new Thickness(10)
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Padding = new Thickness(10),
+                VerticalAlignment = VerticalAlignment.Top
             };
 
-            
+            TextBox remaining = new TextBox
+            {
+                Text = "1 hour 30 minutes",
+                BorderThickness = new Thickness(0),
+                Height = 40,
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                Padding = new Thickness(10),
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+
+
+
+
             unit.Items.Add(listObject.TimeUnit);
             unit.Items.Add("Minutes");
             unit.Items.Add("Hours");
             unit.Items.Add("Days");
             unit.Items.Add("Weeks");
 
+
             Grid.SetColumn(name, 0);
             Grid.SetColumn(url, 1);
             Grid.SetColumn(time, 2);
             Grid.SetColumn(unit, 3);
+            Grid.SetColumn(remaining, 4);
 
             grid.Children.Add(name);
             grid.Children.Add(url);
             grid.Children.Add(time);
             grid.Children.Add(unit);
+            grid.Children.Add(remaining);
 
-            stackPanel.Children.Add(grid);
-            DynamicListBox.Children.Add(stackPanel);
+
+            DynamicListBox.Children.Add(grid);
 
             unit.Loaded += (s, e) =>
             {
