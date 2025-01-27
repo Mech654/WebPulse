@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WebPulse"
         mc:Ignorable="d"
         MinWidth="600"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" Height="700" Width="1000">
 
     <Window.Resources>

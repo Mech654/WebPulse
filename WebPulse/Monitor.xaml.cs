@@ -1,26 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using System.IO;
-using System.Reflection;
-using System.Net.Http;
 using System.Windows.Controls.Primitives;
-using System.Management.Instrumentation;
-using System.Security.Policy;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace WebPulse
@@ -242,65 +229,60 @@ namespace WebPulse
 
 
 
-            TextBox nameField = new TextBox
+            TextBlock nameField = new TextBlock
             {
                 Text = "Name",
                 FontSize = 12,
                 Background = Brushes.Transparent,
-                BorderThickness = new Thickness(0),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBox urlField = new TextBox
+            TextBlock urlField = new TextBlock
             {
                 Text = "URL/Code",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                BorderThickness = new Thickness(0),
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBox timeField = new TextBox
+            TextBlock timeField = new TextBlock
             {
                 Text = "Refresh",
                 FontSize = 12,
                 Background = Brushes.Transparent,
-                BorderThickness = new Thickness(0),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBox unitField = new TextBox
+            TextBlock unitField = new TextBlock
             {
                 Text = "Time Unit",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                BorderThickness = new Thickness(0),
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBox remainingField = new TextBox
+            TextBlock remainingField = new TextBlock
             {
                 Text = "Remaining",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                BorderThickness = new Thickness(0),
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBox buttonField = new TextBox
+            TextBlock buttonField = new TextBlock
             {
                 Text = "",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                BorderThickness = new Thickness(0),
                 TextAlignment = TextAlignment.Center
             };
+
 
 
             Grid.SetColumn(nameField, 0);
@@ -436,6 +418,15 @@ namespace WebPulse
                 VerticalAlignment = VerticalAlignment.Top
             };
 
+            CheckBox lightCheckBox = new CheckBox
+            {
+                Content = "Enable",
+                IsChecked = true,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+
 
 
 
@@ -445,6 +436,7 @@ namespace WebPulse
             unit.Items.Add("Hours");
             unit.Items.Add("Days");
             unit.Items.Add("Weeks");
+            
 
 
             Grid.SetColumn(name, 0);
@@ -452,12 +444,14 @@ namespace WebPulse
             Grid.SetColumn(time, 2);
             Grid.SetColumn(unit, 3);
             Grid.SetColumn(remaining, 4);
+            Grid.SetColumn(lightCheckBox, 5);
 
             grid.Children.Add(name);
             grid.Children.Add(url);
             grid.Children.Add(time);
             grid.Children.Add(unit);
             grid.Children.Add(remaining);
+            grid.Children.Add(lightCheckBox);
 
 
             DynamicListBox.Children.Add(grid);
@@ -472,7 +466,6 @@ namespace WebPulse
                 }
             };
         }
-
     }
 
     public class MyObject
