@@ -60,7 +60,7 @@ namespace WebPulse
                         this.URL_Field.Text = "Invalid URL. Please try again.";
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     this.URL_Field.Text = "Failed to open the URL. Please try again.";
                 }
@@ -120,7 +120,7 @@ namespace WebPulse
         {
             try
             {
-                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\jsonn\\SetupJson.json";
+                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\json\\SetupJson.json";
                 Debug.WriteLine("File path: " + path);
 
                 string directory = System.IO.Path.GetDirectoryName(path);
@@ -476,5 +476,7 @@ namespace WebPulse
         public string Name { get; set; }
         public int Refresh { get; set; }
         public string TimeUnit { get; set; }
+
+        public string Code { get; set; }
     }
 }

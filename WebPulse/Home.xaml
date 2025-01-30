@@ -43,7 +43,7 @@
     </Grid>
     <Grid Grid.Row="1">
         <Border BorderThickness="1" CornerRadius="10" Width="auto" Height="auto" Background="#9394A5" Margin="50,50,50,5" Opacity="0.5">
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="ReleaseList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             </StackPanel>
         </Border>
     </Grid>
