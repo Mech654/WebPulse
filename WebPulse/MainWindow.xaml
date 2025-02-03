@@ -41,18 +41,18 @@
                     <TextBlock Text="Monitors" Foreground="#484B6A"/>
                 </Button.Content>
             </Button>
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
+            <Button Click="Settings_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
                 <Button.Content>
                     <TextBlock Text="Settings" Foreground="#484B6A"/>
                 </Button.Content>
             </Button>
-            <Button Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
-                <Button.Content>
-                    <TextBlock Text="Help" Foreground="#484B6A"/>
-                </Button.Content>
-            </Button>
         </StackPanel>
-
+        <Button Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button.Background>
+                <ImageBrush ImageSource="\resources\help.png"/>
+            </Button.Background>
+            <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
+        </Button>
         <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA"/>
     </Grid>
 </Window>

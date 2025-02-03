@@ -1,5 +1,5 @@
-﻿using PuppeteerSharp;
-using System;
+﻿using System;
+using PuppeteerSharp;
 using System.Threading.Tasks;
 using WebPulse;
 
@@ -8,7 +8,6 @@ namespace WebPulse
     internal class WebScraper
     {
         private BrowserFetcher _browserFetcher;
-
 
         public WebScraper(BrowserFetcher browserFetcher)
         {
@@ -29,7 +28,6 @@ namespace WebPulse
                     WaitUntil = new[] { WaitUntilNavigation.Networkidle0 }
                 });
 
-
                 if ((int)response.Status >= 200 && (int)response.Status < 300)
                 {
                     await browser.CloseAsync();
@@ -44,9 +42,6 @@ namespace WebPulse
                 return false;
             }
         }
-
-
-
 
         public async Task<bool> ScrapeWebsiteAsyncCode(string url, string code)
         {

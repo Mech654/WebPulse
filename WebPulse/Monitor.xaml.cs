@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Windows.Media;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Windows.Controls.Primitives;
 
 namespace WebPulse
 {
@@ -88,31 +88,32 @@ namespace WebPulse
 
         private void RefreshSetup(object sender, RoutedEventArgs e)
         {
-            string refresh = this.refreshrate.Text;
+            string refresh = refreshrate.Text;
             string selectedItem = (timeUnit.SelectedItem as ComboBoxItem)?.Content as string;
             bool isInteger = int.TryParse(refresh, out int result);
+
             if (isInteger)
             {
                 if (selectedItem != null)
                 {
                     setupConfigItems.Add("refresh", refresh);
                     setupConfigItems.Add("timeunit", selectedItem);
-                    this.URL_Field.Text = "";
-                    this.name.Text = "";
-                    this.refreshrate.Text = "";
-                    this.timeUnit.SelectedIndex = -1;
-                    this.refreshPage.Visibility = Visibility.Collapsed;
-                    this.successPage.Visibility = Visibility.Visible;
+                    URL_Field.Text = "";
+                    name.Text = "";
+                    refreshrate.Text = "";
+                    timeUnit.SelectedIndex = -1;
+                    refreshPage.Visibility = Visibility.Collapsed;
+                    successPage.Visibility = Visibility.Visible;
                     SaveJson();
                 }
                 else
                 {
-                    this.refreshrate.Text = "Please select a time unit.";
+                    refreshrate.Text = "Please select a time unit.";
                 }
             }
             else
             {
-                this.refreshrate.Text = "Please enter a valid number.";
+                refreshrate.Text = "Please enter a valid number.";
             }
         }
 
@@ -157,6 +158,7 @@ namespace WebPulse
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(cleanedUrl);
+
                     if (response.IsSuccessStatusCode)
                     {
                         Debug.WriteLine("Valid URL.");
@@ -184,12 +186,9 @@ namespace WebPulse
 
                 if (File.Exists(path))
                 {
-
                     string existingJson = File.ReadAllText(path);
 
-
                     var objects = JsonConvert.DeserializeObject<List<MyObject>>(existingJson);
-
 
                     CreateListDescriptionGridAndItems();
                     foreach (var obj in objects)
@@ -208,12 +207,8 @@ namespace WebPulse
             }
         }
 
-
-
-
         private void CreateListDescriptionGridAndItems()
         {
-           
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
@@ -225,9 +220,6 @@ namespace WebPulse
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(70, GridUnitType.Pixel) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-
-
-
 
             TextBlock nameField = new TextBlock
             {
@@ -283,8 +275,6 @@ namespace WebPulse
                 TextAlignment = TextAlignment.Center
             };
 
-
-
             Grid.SetColumn(nameField, 0);
             Grid.SetColumn(urlField, 1);
             Grid.SetColumn(timeField, 2);
@@ -299,21 +289,16 @@ namespace WebPulse
             grid.Children.Add(remainingField);
             grid.Children.Add(buttonField);
 
-
             DynamicListBox.Children.Add(grid);
         }
 
-
         private void URLBased(MyObject listObject)
         {
-           
-
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
             grid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
             grid.Margin = new Thickness(10, 10, 10, 10);
-
 
             ColumnDefinition col1 = new ColumnDefinition();
             ColumnDefinition col2 = new ColumnDefinition();
@@ -333,15 +318,12 @@ namespace WebPulse
 
             col6.Width = new GridLength(1, GridUnitType.Star);
      
-            
-
             grid.ColumnDefinitions.Add(col1);
             grid.ColumnDefinitions.Add(col2);
             grid.ColumnDefinitions.Add(col3);
             grid.ColumnDefinitions.Add(col4);
             grid.ColumnDefinitions.Add(col5);
             grid.ColumnDefinitions.Add(col6);
-
 
             TextBox name = new TextBox
             {
@@ -426,18 +408,11 @@ namespace WebPulse
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-
-
-
-
-
             unit.Items.Add(listObject.TimeUnit);
             unit.Items.Add("Minutes");
             unit.Items.Add("Hours");
             unit.Items.Add("Days");
             unit.Items.Add("Weeks");
-            
-
 
             Grid.SetColumn(name, 0);
             Grid.SetColumn(url, 1);
@@ -452,7 +427,6 @@ namespace WebPulse
             grid.Children.Add(unit);
             grid.Children.Add(remaining);
             grid.Children.Add(lightCheckBox);
-
 
             DynamicListBox.Children.Add(grid);
 
@@ -476,7 +450,6 @@ namespace WebPulse
         public string Name { get; set; }
         public int Refresh { get; set; }
         public string TimeUnit { get; set; }
-
         public string Code { get; set; }
     }
 }
