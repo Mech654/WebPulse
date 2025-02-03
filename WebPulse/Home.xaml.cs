@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Navigation;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 namespace WebPulse
 {
@@ -23,7 +23,6 @@ namespace WebPulse
         {
             InitializeComponent();
             DisplayReleases();
-
         }
 
         private void DisplayReleases()
@@ -31,7 +30,6 @@ namespace WebPulse
             CreateListDescriptionGridAndItems();
             //I will return here later. Do: 1 . go through every releases in the json file i will make. 2. send it the method
         }
-
 
         private void CreateListDescriptionGridAndItems()
         {
