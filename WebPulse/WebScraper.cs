@@ -2,6 +2,7 @@
 using PuppeteerSharp;
 using System.Threading.Tasks;
 using WebPulse;
+using System.Diagnostics;
 
 namespace WebPulse
 {
@@ -23,22 +24,30 @@ namespace WebPulse
 
                 var response = await page.GoToAsync(url, WaitUntilNavigation.Networkidle0);
 
-                await page.WaitForNavigationAsync(new NavigationOptions
+                if (response != null)
                 {
-                    WaitUntil = new[] { WaitUntilNavigation.Networkidle0 }
-                });
-
-                if ((int)response.Status >= 200 && (int)response.Status < 300)
-                {
-                    await browser.CloseAsync();
-                    return true;
+                    Debug.WriteLine($"Response Status: {response.Status}");
+                    if ((int)response.Status >= 200 && (int)response.Status < 300)
+                    {
+                        Debug.WriteLine("Request was successful.");
+                        await browser.CloseAsync();
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Request failed.");
+                    }
                 }
-
+                else
+                {
+                    Debug.WriteLine("No response received.");
+                }
                 await browser.CloseAsync();
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Error: {ex.Message}");
                 return false;
             }
         }

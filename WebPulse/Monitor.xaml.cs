@@ -50,6 +50,7 @@ namespace WebPulse
                     if (isValid)
                     {
                         setupConfigItems.Add("Method", "urlbased");
+                        setupConfigItems.Add("Code", "0");
                         setupConfigItems.Add("url", url);
                         setupConfigItems.Add("cleaned", cleanedUrl);
                         this.URL.Visibility = Visibility.Collapsed;
@@ -451,5 +452,6 @@ namespace WebPulse
         public int Refresh { get; set; }
         public string TimeUnit { get; set; }
         public string Code { get; set; }
+        public int Count { get; set; }
     }
 }

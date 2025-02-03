@@ -1,34 +1,11 @@
 [
   {
     "Method": "urlbased",
-    "url": "https://www.google.com/",
-    "cleaned": "https://www.google.com/",
-    "name": "g",
-    "refresh": "1",
-    "timeunit": "Days"
-  },
-  {
-    "Method": "urlbased",
-    "url": "https://www.google.com/",
-    "cleaned": "https://www.google.com/",
-    "name": "google",
-    "refresh": "3",
-    "timeunit": "Hours"
-  },
-  {
-    "Method": "urlbased",
-    "url": "https://www.google.com/",
-    "cleaned": "https://www.google.com/",
-    "name": "efe",
-    "refresh": "7",
-    "timeunit": "Days"
-  },
-  {
-    "Method": "urlbased",
-    "url": "https://discord.com/channels/@me/1196414038331105311",
-    "cleaned": "https://discord.com/channels/@me/1196414038331105311",
-    "name": "dwd",
-    "refresh": "2",
+    "Code": "0",
+    "url": "https://www.lightnovelcave.com/novel/infinite-mana-in-the-apocalypse-732/chapter-*106*",
+    "cleaned": "https://www.lightnovelcave.com/novel/infinite-mana-in-the-apocalypse-732/chapter-106",
+    "name": "bob",
+    "refresh": "5",
     "timeunit": "Days"
   }
 ]

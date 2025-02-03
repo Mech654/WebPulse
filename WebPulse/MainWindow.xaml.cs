@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using WebPulse;
 using System.Diagnostics;
+using System.Security.Policy;
+using System.Text.RegularExpressions;
 
 namespace WebPulse
 {
@@ -34,6 +36,7 @@ namespace WebPulse
             _browserFetcher = new BrowserFetcher();
             DownloadBrowserOnce();
             Start_Monitoring();
+            Debug.WriteLine("Starting");
         }
 
         private async void Start_Monitoring()
@@ -67,24 +70,55 @@ namespace WebPulse
             await _browserFetcher.DownloadAsync();
         }
 
-        private async Task<bool> SeeIfResourceExist(string url, string code)
+        private async Task<bool> SeeIfResourceExist(MyObject setup)
         {
-            if (!string.IsNullOrEmpty(code))
+            if (setup.Method == "urlbased")
+            {
+                Debug.WriteLine("URL based");
+                WebScraper webScraper = new WebScraper(_browserFetcher);
+                return await webScraper.ScrapeWebsiteAsync(setup.Url);
+            }
+            else if (setup.Method == "codebased")
             {
                 WebScraper webScraper = new WebScraper(_browserFetcher);
-                return await webScraper.ScrapeWebsiteAsyncCode(url, code);
+                return await webScraper.ScrapeWebsiteAsyncCode(setup.Url, setup.Code);
             }
             else
             {
-                WebScraper webScraper = new WebScraper(_browserFetcher);
-                return await webScraper.ScrapeWebsiteAsync(url);
+                return false;
             }
         }
 
+
+        private async Task<bool> LookForRelease(MyObject myObject)
+        {
+            if (myObject.Method == "urlbased")
+            {
+                WebScraper webScraper = new WebScraper(_browserFetcher);
+                Debug.WriteLine(UpdateUrl(myObject.Url, myObject.Count));
+                return await webScraper.ScrapeWebsiteAsync(UpdateUrl(myObject.Url, myObject.Count));
+            }
+            else if (myObject.Method == "codebased")
+            {
+                WebScraper webScraper = new WebScraper(_browserFetcher);
+                return await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private string UpdateUrl(string url, int count)
+        {
+            return Regex.Replace(url, @"\*(\d+)\*", (match) => (count + 1).ToString());
+        }
+
+
+
         private async Task Monitoring_loop()
         {
-            string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\json\\SetupJson.json"; //Tried to make it relative, really did.
-            
+            string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\json\\SetupJson.json";
             if (File.Exists(path))
             {
                 string existingJson = File.ReadAllText(path);
@@ -94,18 +128,26 @@ namespace WebPulse
                 {
                     foreach (var obj in objects)
                     {
-                        bool exist = await SeeIfResourceExist(obj.Url, obj.Code);
+                        bool exist = await SeeIfResourceExist(obj);
                         if (exist)
                         {
-                            MessageBox.Show("Resource exist");
+                            bool release = await LookForRelease(obj);
+                            if (release)
+                            {
+                                Debug.WriteLine("Resource exist");
+                            }
+                            else
+                            {
+                                //MessageBox.Show("Resource does not exist");
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Resource does not exist");
+                            //MessageBox.Show("Resource does not exist");
                         }
 
-                    await Task.Delay(10000);
                     }
+                    await Task.Delay(1000);
                 }
             }
         }
