@@ -28,8 +28,12 @@ namespace WebPulse
 
         private BrowserFetcher _browserFetcher;
 
+        private HelperCode helperCode;
+
         public MainWindow()
         {
+            this.helperCode = new HelperCode();
+
             InitializeComponent();
             MainContent.Content = new Home();
  
@@ -118,7 +122,7 @@ namespace WebPulse
 
         private async Task Monitoring_loop()
         {
-            string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\json\\SetupJson.json";
+            string path = helperCode.GetJsonLocation();
             if (File.Exists(path))
             {
                 string existingJson = File.ReadAllText(path);
