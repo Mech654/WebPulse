@@ -14,10 +14,13 @@ namespace WebPulse
 {
     public partial class Monitor : UserControl
     {
+        private readonly HelperCode helperCode;
         Dictionary<string, string> setupConfigItems = new Dictionary<string, string>();
 
         public Monitor()
         {
+            this.helperCode = new HelperCode();
+
             InitializeComponent();
             UpdateList();
         }
@@ -122,7 +125,7 @@ namespace WebPulse
         {
             try
             {
-                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\json\\SetupJson.json";
+                string path = helperCode.GetJsonLocation();
                 Debug.WriteLine("File path: " + path);
 
                 string directory = System.IO.Path.GetDirectoryName(path);
@@ -183,7 +186,7 @@ namespace WebPulse
         {
             try
             {
-                string path = "C:\\Users\\ahme1636\\OneDrive - Syddansk Erhvervsskole\\Dokumenter\\Webpulse\\WebPulse\\jsonn\\SetupJson.json";
+                string path = helperCode.GetJsonLocation();
 
                 if (File.Exists(path))
                 {
