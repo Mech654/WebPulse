@@ -1,44 +1,38 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using PuppeteerSharp;
-using Newtonsoft.Json;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Navigation;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using WebPulse;
-using System.Diagnostics;
-using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using Newtonsoft.Json;
+using PuppeteerSharp;
+using System.Diagnostics;
+using WebPulse;
+using System.Collections.Generic;
 
 namespace WebPulse
 {
     public partial class MainWindow : Window
     {
         Settings settings = new Settings();
-
         private BrowserFetcher _browserFetcher;
-
+        private IBrowser _browser;
         private HelperCode helperCode;
 
         public MainWindow()
         {
-            this.helperCode = new HelperCode();
-
             InitializeComponent();
             MainContent.Content = new Home();
- 
+            helperCode = new HelperCode();
             _browserFetcher = new BrowserFetcher();
-            DownloadBrowserOnce();
+            Loaded += MainWindow_Loaded;
+        }
+
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await DownloadBrowserOnce();
+            await LaunchBrowserOnce();
             Start_Monitoring();
             Debug.WriteLine("Starting");
         }
@@ -69,42 +63,27 @@ namespace WebPulse
             e.Handled = true;
         }
 
-        private async void DownloadBrowserOnce()
+        private async Task DownloadBrowserOnce()
         {
             await _browserFetcher.DownloadAsync();
         }
 
-        private async Task<bool> SeeIfResourceExist(MyObject setup)
+        private async Task LaunchBrowserOnce()
         {
-            if (setup.Method == "urlbased")
-            {
-                Debug.WriteLine("URL based");
-                WebScraper webScraper = new WebScraper(_browserFetcher);
-                return await webScraper.ScrapeWebsiteAsync(setup.Url);
-            }
-            else if (setup.Method == "codebased")
-            {
-                WebScraper webScraper = new WebScraper(_browserFetcher);
-                return await webScraper.ScrapeWebsiteAsyncCode(setup.Url, setup.Code);
-            }
-            else
-            {
-                return false;
-            }
+            _browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
         }
-
 
         private async Task<bool> LookForRelease(MyObject myObject)
         {
+            WebScraper webScraper = new WebScraper(_browser);
             if (myObject.Method == "urlbased")
             {
-                WebScraper webScraper = new WebScraper(_browserFetcher);
-                Debug.WriteLine(UpdateUrl(myObject.Url, myObject.Count));
-                return await webScraper.ScrapeWebsiteAsync(UpdateUrl(myObject.Url, myObject.Count));
+                string updatedUrl = UpdateUrl(myObject.Url, myObject.Count);
+                Debug.WriteLine(updatedUrl);
+                return await webScraper.ScrapeWebsiteAsync(updatedUrl);
             }
             else if (myObject.Method == "codebased")
             {
-                WebScraper webScraper = new WebScraper(_browserFetcher);
                 return await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
             }
             else
@@ -115,10 +94,8 @@ namespace WebPulse
 
         private string UpdateUrl(string url, int count)
         {
-            return Regex.Replace(url, @"\*(\d+)\*", (match) => (count + 1).ToString());
+            return Regex.Replace(url, @"\*(\d+)\*", match => (count + 1).ToString());
         }
-
-
 
         private async Task Monitoring_loop()
         {
@@ -126,34 +103,57 @@ namespace WebPulse
             if (File.Exists(path))
             {
                 string existingJson = File.ReadAllText(path);
-                var objects = JsonConvert.DeserializeObject<List<MyObject>>(existingJson);
+                var objects = JsonConvert.DeserializeObject<System.Collections.Generic.List<MyObject>>(existingJson);
+
+                var queue = new SortedList<DateTime, MyObject>();
+                foreach (var obj in objects)
+                {
+                    queue.Add(DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit)), obj);
+                }
 
                 while (true)
                 {
-                    foreach (var obj in objects)
-                    {
-                        bool exist = await SeeIfResourceExist(obj);
-                        if (exist)
-                        {
-                            bool release = await LookForRelease(obj);
-                            if (release)
-                            {
-                                Debug.WriteLine("Resource exist");
-                            }
-                            else
-                            {
-                                //MessageBox.Show("Resource does not exist");
-                            }
-                        }
-                        else
-                        {
-                            //MessageBox.Show("Resource does not exist");
-                        }
+                    if (queue.Count == 0)
+                        break;
 
+                    var first = queue.Keys[0];
+                    var obj = queue[first];
+                    queue.RemoveAt(0);
+
+                    var delay = (int)(first - DateTime.Now).TotalMilliseconds;
+                    if (delay > 0)
+                        await Task.Delay(delay);
+
+                    bool release = await LookForRelease(obj);
+                    if (release)
+                    {
+                        Debug.WriteLine("Resource exists");
                     }
-                    await Task.Delay(1000);
+
+                    queue.Add(DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit)), obj);
                 }
             }
+        }
+
+        private int ConvertToMilliseconds(int refresh, string timeUnit)
+        {
+            return timeUnit switch
+            {
+                "Minutes" => refresh * 60 * 1000,
+                "Hours" => refresh * 60 * 60 * 1000,
+                "Days" => refresh * 24 * 60 * 60 * 1000,
+                "Weeks" => refresh * 7 * 24 * 60 * 60 * 1000,
+                _ => 60 * 1000 // Default to 1 minute if invalid
+            };
+        }
+
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_browser != null)
+            {
+                await _browser.CloseAsync();
+            }
+            base.OnClosed(e);
         }
     }
 }

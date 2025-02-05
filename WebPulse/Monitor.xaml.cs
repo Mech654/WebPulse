@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
+using System.Text.RegularExpressions;
 
 namespace WebPulse
 {
@@ -54,6 +55,7 @@ namespace WebPulse
                     {
                         setupConfigItems.Add("Method", "urlbased");
                         setupConfigItems.Add("Code", "0");
+                        setupConfigItems.Add("Count", ExtractNumber(url));
                         setupConfigItems.Add("url", url);
                         setupConfigItems.Add("cleaned", cleanedUrl);
                         this.URL.Visibility = Visibility.Collapsed;
@@ -209,6 +211,17 @@ namespace WebPulse
                 MessageBox.Show("Error updating the list: " + ex.Message);
                 Debug.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        public string ExtractNumber(string url)
+        {
+            string pattern = @"\*(\d+)\*";
+            Match match = Regex.Match(url, pattern);
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            throw new ArgumentException("The URL does not contain a number surrounded by asterisks.");
         }
 
         private void CreateListDescriptionGridAndItems()
