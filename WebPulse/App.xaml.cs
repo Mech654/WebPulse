@@ -1,11 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Configuration;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Windows;
 
 namespace WebPulse
 {

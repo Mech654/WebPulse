@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using PuppeteerSharp;
+﻿using PuppeteerSharp;
+using System;
 using System.Diagnostics;
-using WebPulse;
+using System.Threading.Tasks;
 
 namespace WebPulse
 {

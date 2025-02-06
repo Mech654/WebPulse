@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PuppeteerSharp;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
-using Newtonsoft.Json;
-using PuppeteerSharp;
-using System.Diagnostics;
-using WebPulse;
-using System.Collections.Generic;
 
 namespace WebPulse
 {
@@ -99,22 +97,50 @@ namespace WebPulse
 
         private async Task Monitoring_loop()
         {
-            string path = helperCode.GetJsonLocation();
-            if (File.Exists(path))
+            try
             {
+                Debug.WriteLine("Starting Monitoring Loop...");
+
+                string path = helperCode.GetJsonLocation();
+                if (!File.Exists(path))
+                {
+                    Debug.WriteLine($"Error: Config file not found at {path}");
+                    return;
+                }
+
+                Debug.WriteLine("Loading JSON configuration...");
                 string existingJson = File.ReadAllText(path);
+
                 var objects = JsonConvert.DeserializeObject<System.Collections.Generic.List<MyObject>>(existingJson);
+                if (objects == null || objects.Count == 0)
+                {
+                    Debug.WriteLine("Warning: No valid objects found in JSON.");
+                    return;
+                }
 
                 var queue = new SortedList<DateTime, MyObject>();
                 foreach (var obj in objects)
                 {
-                    queue.Add(DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit)), obj);
+                    try
+                    {
+                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit));
+                        queue.Add(nextRunTime, obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error adding object to queue: {ex.Message}");
+                    }
                 }
+
+                Debug.WriteLine($"Monitoring started with {queue.Count} items in queue.");
 
                 while (true)
                 {
                     if (queue.Count == 0)
+                    {
+                        Debug.WriteLine("Queue is empty. Stopping loop.");
                         break;
+                    }
 
                     var first = queue.Keys[0];
                     var obj = queue[first];
@@ -122,18 +148,49 @@ namespace WebPulse
 
                     var delay = (int)(first - DateTime.Now).TotalMilliseconds;
                     if (delay > 0)
-                        await Task.Delay(delay);
-
-                    bool release = await LookForRelease(obj);
-                    if (release)
                     {
-                        Debug.WriteLine("Resource exists");
+                        Debug.WriteLine($"Next search is in {delay / 1000.0:F1} seconds");
+                        await Task.Delay(delay);
                     }
 
-                    queue.Add(DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit)), obj);
+                    try
+                    {
+                        Debug.WriteLine("Checking for resource...");
+                        bool release = await LookForRelease(obj);
+
+                        if (release)
+                        {
+                            Debug.WriteLine("Resource exists!");
+                        }
+                        else
+                        {
+                            Debug.WriteLine("No resource found.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error during resource check: {ex.Message}");
+                    }
+
+                    try
+                    {
+                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit));
+                        queue.Add(nextRunTime, obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error re-adding object to queue: {ex.Message}");
+                    }
                 }
+
+                Debug.WriteLine("Monitoring loop ended.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Critical error in Monitoring_loop: {ex.Message}");
             }
         }
+
 
         private int ConvertToMilliseconds(int refresh, string timeUnit)
         {
@@ -155,5 +212,7 @@ namespace WebPulse
             }
             base.OnClosed(e);
         }
+
+
     }
 }

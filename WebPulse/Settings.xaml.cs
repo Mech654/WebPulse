@@ -1,18 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Navigation;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Diagnostics;
 
 namespace WebPulse
 {
@@ -21,7 +8,7 @@ namespace WebPulse
         public static string theme;
         public static string language;
         public static string fontSize;
-        
+
         public Settings()
         {
             InitializeComponent();
