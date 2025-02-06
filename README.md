@@ -51,3 +51,9 @@ At its core, WebPulse uses the Puppeteer library to perform web scraping, allowi
 
 ## 8. Notifications
    - **Notifications**: Implement notifications to alert users about new content, updates, or changes to the monitored items.
+
+<p align="center">
+  <img src="https://github.com/Mech654/Resources/blob/main/Web%20Scraping%20NOT%20allowed.png" width="500">
+</p>
+
+
