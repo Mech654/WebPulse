@@ -233,7 +233,7 @@ namespace WebPulse
         public string Url { get; set; }
         public string Cleaned { get; set; }
         public string Name { get; set; }
-        public int Refresh { get; set; }
+        public string Refresh { get; set; }
         public string TimeUnit { get; set; }
         public string Code { get; set; }
         public int Count { get; set; }

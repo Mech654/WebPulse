@@ -242,17 +242,15 @@ namespace WebPulse
             remaining.Tag = new String[] { listObject.Name, "remaining" };
             lightCheckBox.Tag = new String[] { listObject.Name, "light" };
 
+            FocusHandler _focusHandler = new FocusHandler();
+
             // Eventhandlers
-            url.LostFocus += LostFocus;
-            name.LostFocus += LostFocus;
-            time.LostFocus += LostFocus;
-            unit.LostFocus += LostFocus;
-            remaining.LostFocus += LostFocus;
-            lightCheckBox.LostFocus += LostFocus;
-
-
-
-
+            url.LostFocus += _focusHandler.LostFocus;
+            name.LostFocus += _focusHandler.LostFocus;
+            time.LostFocus += _focusHandler.LostFocus;
+            unit.LostFocus += _focusHandler.LostFocus;
+            remaining.LostFocus += _focusHandler.LostFocus;
+            lightCheckBox.LostFocus += _focusHandler.LostFocus;
 
 
             grid.Children.Add(name);
@@ -274,16 +272,5 @@ namespace WebPulse
                 }
             };
         }
-        private void LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            string[] tagValues = (string[])textBox.Tag;
-
-            string setitem1 = tagValues[0];
-            string setitem2 = tagValues[1];
-            string updatedValue = textBox.Text;
-
-        }
-
     }
 }

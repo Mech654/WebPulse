@@ -101,29 +101,14 @@ namespace WebPulse
             {
                 Debug.WriteLine("Starting Monitoring Loop...");
 
-                string path = helperCode.GetJsonLocation();
-                if (!File.Exists(path))
-                {
-                    Debug.WriteLine($"Error: Config file not found at {path}");
-                    return;
-                }
-
-                Debug.WriteLine("Loading JSON configuration...");
-                string existingJson = File.ReadAllText(path);
-
-                var objects = JsonConvert.DeserializeObject<System.Collections.Generic.List<MyObject>>(existingJson);
-                if (objects == null || objects.Count == 0)
-                {
-                    Debug.WriteLine("Warning: No valid objects found in JSON.");
-                    return;
-                }
+                var objects = helperCode.GetSetupJsonObjects();
 
                 var queue = new SortedList<DateTime, MyObject>();
                 foreach (var obj in objects)
                 {
                     try
                     {
-                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit));
+                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
                         queue.Add(nextRunTime, obj);
                     }
                     catch (Exception ex)
@@ -174,7 +159,7 @@ namespace WebPulse
 
                     try
                     {
-                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(obj.Refresh, obj.TimeUnit));
+                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
                         queue.Add(nextRunTime, obj);
                     }
                     catch (Exception ex)
