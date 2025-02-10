@@ -197,10 +197,10 @@ namespace WebPulse
                 VerticalAlignment = VerticalAlignment.Top
             };
 
-            TextBox remaining = new TextBox
+            TextBlock remaining = new TextBlock
             {
                 Text = "1 hour 30 minutes",
-                BorderThickness = new Thickness(0),
+             
                 Height = 40,
                 Foreground = new SolidColorBrush(Colors.Black),
                 FontSize = 12,
@@ -237,8 +237,8 @@ namespace WebPulse
             // Always put the listobject name as first item and the type of item as second item in the tag
             name.Tag = new String[] { listObject.Name, "name" };
             url.Tag = new String[] { listObject.Name, "url" };
-            time.Tag = new String[] { listObject.Name, "time" };
-            unit.Tag = new String[] { listObject.Name, "unit" };
+            time.Tag = new String[] { listObject.Name, "refresh" };
+            unit.Tag = new String[] { listObject.Name, "TimeUnit" };
             remaining.Tag = new String[] { listObject.Name, "remaining" };
             lightCheckBox.Tag = new String[] { listObject.Name, "light" };
 
@@ -248,7 +248,7 @@ namespace WebPulse
             url.LostFocus += _focusHandler.LostFocus;
             name.LostFocus += _focusHandler.LostFocus;
             time.LostFocus += _focusHandler.LostFocus;
-            unit.LostFocus += _focusHandler.LostFocus;
+            unit.SelectionChanged += _focusHandler.LostFocus;
             remaining.LostFocus += _focusHandler.LostFocus;
             lightCheckBox.LostFocus += _focusHandler.LostFocus;
 

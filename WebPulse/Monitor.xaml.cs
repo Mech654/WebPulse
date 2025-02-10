@@ -17,7 +17,7 @@ namespace WebPulse
     {
         private readonly HelperCode helperCode;
         private ListInitializer _listInitializer;
-        Dictionary<string, string> setupConfigItems = new Dictionary<string, string>();
+        private Dictionary<string, string> SetupConfigItems { get; set; }
 
         public Monitor()
         {
@@ -27,8 +27,11 @@ namespace WebPulse
             InitializeComponent();
             UpdateList();
         }
+
         private void Start_Setup(object sender, RoutedEventArgs e)
         {
+            // Create a new dictionary for this setup session.
+            SetupConfigItems = new Dictionary<string, string>();
             this.setupPage.Visibility = Visibility.Visible;
         }
 
@@ -55,11 +58,14 @@ namespace WebPulse
                     bool isValid = await CheckUrlValidityAsync(cleanedUrl);
                     if (isValid)
                     {
-                        setupConfigItems.Add("Method", "urlbased");
-                        setupConfigItems.Add("Code", "0");
-                        setupConfigItems.Add("Count", ExtractNumber(url));
-                        setupConfigItems.Add("url", url);
-                        setupConfigItems.Add("cleaned", cleanedUrl);
+                        // Use the current session's SetupConfigItems dictionary.
+                        SetupConfigItems.Add("Method", "urlbased");
+                        SetupConfigItems.Add("Code", "0");
+                        SetupConfigItems.Add("Count", ExtractNumber(url));
+                        SetupConfigItems.Add("url", url);
+                        SetupConfigItems.Add("cleaned", cleanedUrl);
+                        SetupConfigItems.Add("enabled", "true");
+
                         this.URL.Visibility = Visibility.Collapsed;
                         this.namePage.Visibility = Visibility.Visible;
                     }
@@ -84,7 +90,7 @@ namespace WebPulse
             string name = this.name.Text;
             if (name.Length > 0)
             {
-                setupConfigItems.Add("name", name);
+                SetupConfigItems.Add("name", name);
                 this.namePage.Visibility = Visibility.Collapsed;
                 this.refreshPage.Visibility = Visibility.Visible;
             }
@@ -104,15 +110,16 @@ namespace WebPulse
             {
                 if (selectedItem != null)
                 {
-                    setupConfigItems.Add("refresh", refresh);
-                    setupConfigItems.Add("timeunit", selectedItem);
+                    SetupConfigItems.Add("refresh", refresh);
+                    SetupConfigItems.Add("timeunit", selectedItem);
                     URL_Field.Text = "";
                     name.Text = "";
                     refreshrate.Text = "";
                     timeUnit.SelectedIndex = -1;
                     refreshPage.Visibility = Visibility.Collapsed;
                     successPage.Visibility = Visibility.Visible;
-                    SaveJson();
+                    // Pass the current session's dictionary to SaveJson.
+                    SaveJson(SetupConfigItems);
                 }
                 else
                 {
@@ -125,14 +132,14 @@ namespace WebPulse
             }
         }
 
-        private void SaveJson()
+        private void SaveJson(Dictionary<string, string> configItems)
         {
             try
             {
                 string path = helperCode.GetJsonLocation();
                 Debug.WriteLine("File path: " + path);
 
-                string directory = System.IO.Path.GetDirectoryName(path);
+                string directory = Path.GetDirectoryName(path);
                 if (!Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);
@@ -146,7 +153,7 @@ namespace WebPulse
                     jsonList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(existingJson);
                 }
 
-                jsonList.Add(new Dictionary<string, string>(setupConfigItems));
+                jsonList.Add(new Dictionary<string, string>(configItems));
 
                 string json = JsonConvert.SerializeObject(jsonList, Formatting.Indented);
 
@@ -236,6 +243,7 @@ namespace WebPulse
         public string Refresh { get; set; }
         public string TimeUnit { get; set; }
         public string Code { get; set; }
-        public int Count { get; set; }
+        public string Count { get; set; }
+        public string Enabled { get; set; }
     }
 }

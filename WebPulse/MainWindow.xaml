@@ -53,6 +53,6 @@
             </Button.Background>
             <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
         </Button>
-        <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA"/>
+        <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA" Focusable="True"/>
     </Grid>
 </Window>

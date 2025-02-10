@@ -54,7 +54,5 @@ namespace WebPulse
             string newJson = JsonConvert.SerializeObject(objects, Formatting.Indented);
             File.WriteAllText(GetJsonLocation(), newJson);
         }
-
     }
-
 }

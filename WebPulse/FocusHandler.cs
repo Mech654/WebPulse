@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +14,34 @@ namespace WebPulse
         private HelperCode _helperCode = new HelperCode();
         public void LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            string[] tagValues = (string[])textBox.Tag;
+            string updatedValue = string.Empty;
+            string _name = "";
+            string _type = "";
 
+            if (sender is TextBox textBox)
+            {
+                updatedValue = textBox.Text;
+                string[] tagValues = (string[])textBox.Tag;
+                _name = tagValues[0];
+                _type = tagValues[1];
+            }
+            else if (sender is ComboBox comboBox)
+            {
+                updatedValue = comboBox.SelectedItem.ToString();
+                string[] tagValues = (string[])comboBox.Tag;
+                _name = tagValues[0];
+                _type = tagValues[1];
+            }
+            else
+            {
+                return;
+            }
 
-            string _name = tagValues[0];
-            string _type = tagValues[1];
-            string updatedValue = textBox.Text;
+            Debug.WriteLine("Updating config: " + _name + " type: " + _type + " new value: " + updatedValue);
 
             UpdateConfig(_name, _type, updatedValue);
         }
+
 
         private void UpdateConfig(string name, string type, string value)
         {

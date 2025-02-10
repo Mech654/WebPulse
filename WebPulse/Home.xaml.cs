@@ -8,7 +8,9 @@ namespace WebPulse
 
     public partial class Home : UserControl
     {
-
+        private string _activeSeeking { get; set; } = " ";
+        private string _activeFound { get; set; } = " ";
+        private string _activeFoundAll { get; set; } = " ";
         public Home()
         {
             InitializeComponent();

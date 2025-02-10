@@ -76,7 +76,7 @@ namespace WebPulse
             WebScraper webScraper = new WebScraper(_browser);
             if (myObject.Method == "urlbased")
             {
-                string updatedUrl = UpdateUrl(myObject.Url, myObject.Count);
+                string updatedUrl = UpdateUrl(myObject.Url, int.Parse(myObject.Count));
                 Debug.WriteLine(updatedUrl);
                 return await webScraper.ScrapeWebsiteAsync(updatedUrl);
             }
@@ -106,14 +106,17 @@ namespace WebPulse
                 var queue = new SortedList<DateTime, MyObject>();
                 foreach (var obj in objects)
                 {
-                    try
+                    if (obj.Enabled == "true")
                     {
-                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
-                        queue.Add(nextRunTime, obj);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Error adding object to queue: {ex.Message}");
+                        try
+                        {
+                            var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
+                            queue.Add(nextRunTime, obj);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Error adding object to queue: {ex.Message}");
+                        }
                     }
                 }
 
@@ -185,7 +188,7 @@ namespace WebPulse
                 "Hours" => refresh * 60 * 60 * 1000,
                 "Days" => refresh * 24 * 60 * 60 * 1000,
                 "Weeks" => refresh * 7 * 24 * 60 * 60 * 1000,
-                _ => 60 * 1000 // Default to 1 minute if invalid
+                _ => 60 * 1000 
             };
         }
 
