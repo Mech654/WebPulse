@@ -14,10 +14,6 @@ namespace WebPulse
             InitializeComponent();
         }
 
-        public void themeChanged(object sender, SelectionChangedEventArgs e)
-        {
-            theme = (this.ThemeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-        }
 
         public void languageChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -29,13 +25,23 @@ namespace WebPulse
             fontSize = (this.FontSizeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
         }
 
-        public void ApplyButton_Click(object sender, RoutedEventArgs e)
+
+
+        private void themeChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Reloads the listed pages with the new settings
-            MainWindow mainWindow = new MainWindow();
-            Home home = new Home();
-            Monitor monitor = new Monitor();
-            Settings settings = new Settings();
+            // Your logic for theme change
+            var selectedItem = (ComboBoxItem)((ComboBox)sender).SelectedItem;
+            string selectedTheme = selectedItem.Content.ToString();
+
+            if (selectedTheme == "Light")
+            {
+                DarkMode.Disable();
+            }
+            else if (selectedTheme == "Dark")
+            {
+                DarkMode.Enable();
+            }
         }
+
     }
 }

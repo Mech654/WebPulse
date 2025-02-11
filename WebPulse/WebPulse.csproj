@@ -123,6 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DarkMode.cs" />
     <Compile Include="FocusHandler.cs" />
     <Compile Include="HelperCode.cs" />
     <Compile Include="ListInitializer.cs" />

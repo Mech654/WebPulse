@@ -10,13 +10,7 @@
         Title="MainWindow" Height="700" Width="1000">
 
     <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#484B6A" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Foreground" Value="#484B6A" />
-        </Style>
-        <SolidColorBrush x:Key="TextColor" Color="#484B6A" />
+
     </Window.Resources>
 
     <Grid>
@@ -25,34 +19,36 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Background="#E4E5F1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StackPanel Grid.Column="0" Background="{DynamicResource PrimaryButtonBackgroundBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Image Source="\resources\logo.png" HorizontalAlignment="Center" Width="Auto" Height="Auto" MaxWidth="300" MaxHeight="300" />
-            <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20">
+            <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20"  Foreground="{DynamicResource PrimaryButtonTextBrush}">
                 Welcome to WebPulse!
             </TextBlock>
 
-            <Button Click="Home_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
+            <Button Click="Home_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="{DynamicResource PrimaryButtonBackgroundBrush}" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
                 <Button.Content>
-                    <TextBlock Text="Home" Foreground="#484B6A"/>
+                    <TextBlock Text="Home" Foreground="{DynamicResource PrimaryButtonTextBrush}" />
                 </Button.Content>
             </Button>
-            <Button Click="Monitor_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
+            <Button Click="Monitor_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="{DynamicResource PrimaryButtonBackgroundBrush}" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
                 <Button.Content>
-                    <TextBlock Text="Monitors" Foreground="#484B6A"/>
+                    <TextBlock Text="Monitors" Foreground="{DynamicResource PrimaryButtonTextBrush}" />
                 </Button.Content>
             </Button>
-            <Button Click="Settings_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="#E4E5F1" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
+            <Button Click="Settings_Click" Height="40" FontSize="16" HorizontalAlignment="Stretch" Background="{DynamicResource PrimaryButtonBackgroundBrush}" BorderBrush="Transparent" BorderThickness="0" Margin="0,0">
                 <Button.Content>
-                    <TextBlock Text="Settings" Foreground="#484B6A"/>
+                    <TextBlock Text="Settings" Foreground="{DynamicResource PrimaryButtonTextBrush}" />
                 </Button.Content>
             </Button>
         </StackPanel>
+
         <Button Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button.Background>
                 <ImageBrush ImageSource="\resources\help.png"/>
             </Button.Background>
             <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
         </Button>
-        <ContentControl x:Name="MainContent" Grid.Column="1" Background="#FAFAFA" Focusable="True"/>
+
+        <ContentControl x:Name="MainContent" Grid.Column="1" Background="{StaticResource ControlBackgroundBrush}" Focusable="True"/>
     </Grid>
 </Window>

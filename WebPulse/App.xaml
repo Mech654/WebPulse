@@ -5,10 +5,27 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <!-- Light Colors -->
+            <Color x:Key="PrimaryButtonBackgroundColor">#E4E5F1</Color>
+            <Color x:Key="PrimaryButtonTextColor">#484B6A</Color>
+            <Color x:Key="TextBlockColor">#484B6A</Color>
+            <Color x:Key="ControlBackgroundColor">#FAFAFA</Color>
+
+
+            <!-- Dark Colors -->
+            <Color x:Key="DarkPrimaryButtonBackgroundColor">#333333</Color>
+            <Color x:Key="DarkPrimaryButtonTextColor">#D1D1D1</Color>
+            <Color x:Key="DarkTextBlockColor">#D1D1D1</Color>
+            <Color x:Key="DarkControlBackgroundColor">#121212</Color>
+
+
+
+
+            <!-- Brushes -->
+            <SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="{StaticResource PrimaryButtonBackgroundColor}" />
+            <SolidColorBrush x:Key="PrimaryButtonTextBrush" Color="{StaticResource PrimaryButtonTextColor}" />
+            <SolidColorBrush x:Key="TextBlockBrush" Color="{StaticResource TextBlockColor}" />
+            <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource ControlBackgroundColor}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
