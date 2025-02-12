@@ -18,23 +18,26 @@ namespace WebPulse
             string _name = "";
             string _type = "";
 
-            if (sender is TextBox textBox)
+            switch (sender)
             {
-                updatedValue = textBox.Text;
-                string[] tagValues = (string[])textBox.Tag;
-                _name = tagValues[0];
-                _type = tagValues[1];
-            }
-            else if (sender is ComboBox comboBox)
-            {
-                updatedValue = comboBox.SelectedItem.ToString();
-                string[] tagValues = (string[])comboBox.Tag;
-                _name = tagValues[0];
-                _type = tagValues[1];
-            }
-            else
-            {
-                return;
+                case TextBox textBox:
+                {
+                    updatedValue = textBox.Text;
+                    string[] tagValues = (string[])textBox.Tag;
+                    _name = tagValues[0];
+                    _type = tagValues[1];
+                    break;
+                }
+                case ComboBox comboBox:
+                {
+                    updatedValue = comboBox.SelectedItem.ToString();
+                    string[] tagValues = (string[])comboBox.Tag;
+                    _name = tagValues[0];
+                    _type = tagValues[1];
+                    break;
+                }
+                default:
+                    return;
             }
 
             Debug.WriteLine("Updating config: " + _name + " type: " + _type + " new value: " + updatedValue);

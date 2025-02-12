@@ -42,13 +42,14 @@
             </Button>
         </StackPanel>
 
-        <Button Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <Button Grid.Column="0" Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button.Background>
                 <ImageBrush ImageSource="\resources\help.png"/>
             </Button.Background>
             <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
         </Button>
-
-        <ContentControl x:Name="MainContent" Grid.Column="1" Background="{StaticResource ControlBackgroundBrush}" Focusable="True"/>
+        <Border Grid.Column="1" BorderThickness="0.8,0,0,0" BorderBrush="#E6C766">
+            <ContentControl x:Name="MainContent" Focusable="True"/>
+        </Border>
     </Grid>
 </Window>

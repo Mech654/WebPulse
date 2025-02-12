@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace WebPulse
 {
@@ -25,6 +26,7 @@ namespace WebPulse
 
         private void CreateListDescriptionGridAndItems()
         {
+            
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
@@ -32,13 +34,17 @@ namespace WebPulse
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            
+            
+            Brush primaryTextBrush = (Brush)Application.Current.Resources["PrimaryButtonTextBrush"];
+
 
             TextBlock nameField = new TextBlock
             {
                 Text = "Name",
                 FontSize = 14,
+                Foreground = primaryTextBrush,
                 FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Black,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
@@ -48,12 +54,14 @@ namespace WebPulse
             {
                 Text = "Releases",
                 FontSize = 14,
+                Foreground = primaryTextBrush,
                 FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Black,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
+            
+
 
             Grid.SetColumn(nameField, 0);
             Grid.SetColumn(releasesField, 1);
