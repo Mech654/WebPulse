@@ -1,5 +1,4 @@
-﻿
-    <UserControl x:Class="WebPulse.Monitor"
+﻿<UserControl x:Class="WebPulse.Monitor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -23,10 +22,49 @@
             <Setter Property="Height" Value="40"/>
             <Setter Property="Margin" Value="10"/>
         </Style>
+        
+        <Style x:Key="AquaComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="Background" Value="Aqua" />
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <!-- The Border uses TemplateBinding to get the Background -->
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter Margin="3"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding SelectionBoxItem}" />
+                            </Border>
+                            <ToggleButton x:Name="ToggleButton"
+                                          Background="Transparent"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press" />
+                            <Popup Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border x:Name="DropDownBorder"
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="1">
+                                    <ScrollViewer>
+                                        <StackPanel IsItemsHost="True"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-
+        
     </UserControl.Resources>
-    <Grid>
+    
+    <Grid Background="{DynamicResource MainContentBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition Height="*"/>
@@ -83,7 +121,7 @@
                                 </Button.Effect>
                             </Button>
                         </Grid>
-                        <TextBlock HorizontalAlignment="Center" Text="*URL method is recommened if possible*" VerticalAlignment="Bottom"/>
+                        <TextBlock HorizontalAlignment="Center" Text="*URL method is recommend if possible*" VerticalAlignment="Bottom"/>
                         <TextBlock HorizontalAlignment="Center">
                     <Hyperlink NavigateUri="https://example.com" Foreground="RoyalBlue">
                         HELP

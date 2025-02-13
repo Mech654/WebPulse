@@ -21,28 +21,28 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Border Grid.Row="0" BorderBrush="#202020" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
+            <Border Grid.Row="0" BorderBrush="{DynamicResource BorderLineBrush}" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 </StackPanel>
             </Border>
         </Grid>
 
         <Grid Grid.Column="1">
-            <Border Grid.Row="0" BorderThickness="1" BorderBrush="#202020" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
+            <Border Grid.Row="0" BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 </StackPanel>
             </Border>
         </Grid>
 
         <Grid Grid.Column="2">
-            <Border Grid.Row="0" BorderBrush="#202020" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
+            <Border Grid.Row="0" BorderBrush="{DynamicResource BorderLineBrush}" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 </StackPanel>
             </Border>
         </Grid>
     </Grid>
     <Grid Grid.Row="1">
-        <Border BorderThickness="1" BorderBrush="#202020" CornerRadius="10" Width="auto" Height="auto" Background="{DynamicResource ControlBackgroundBrush}" Margin="50,50,50,5" Opacity="1">
+        <Border BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" CornerRadius="10" Width="auto" Height="auto" Background="{DynamicResource ControlBackgroundBrush}" Margin="50,50,50,5" Opacity="1">
             <StackPanel x:Name="ReleaseList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             </StackPanel>
         </Border>

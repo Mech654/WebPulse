@@ -15,8 +15,8 @@ namespace WebPulse
         public void LostFocus(object sender, RoutedEventArgs e)
         {
             string updatedValue = string.Empty;
-            string _name = "";
-            string _type = "";
+            string name = "";
+            string type = "";
 
             switch (sender)
             {
@@ -24,25 +24,25 @@ namespace WebPulse
                 {
                     updatedValue = textBox.Text;
                     string[] tagValues = (string[])textBox.Tag;
-                    _name = tagValues[0];
-                    _type = tagValues[1];
+                    name = tagValues[0];
+                    type = tagValues[1];
                     break;
                 }
                 case ComboBox comboBox:
                 {
                     updatedValue = comboBox.SelectedItem.ToString();
                     string[] tagValues = (string[])comboBox.Tag;
-                    _name = tagValues[0];
-                    _type = tagValues[1];
+                    name = tagValues[0];
+                    type = tagValues[1];
                     break;
                 }
                 default:
                     return;
             }
 
-            Debug.WriteLine("Updating config: " + _name + " type: " + _type + " new value: " + updatedValue);
+            Debug.WriteLine("Updating config: " + name + " type: " + type + " new value: " + updatedValue);
 
-            UpdateConfig(_name, _type, updatedValue);
+            UpdateConfig(name, type, updatedValue);
         }
 
 

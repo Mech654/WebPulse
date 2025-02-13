@@ -9,9 +9,9 @@ namespace WebPulse
 
     public partial class Home : UserControl
     {
-        private string _activeSeeking { get; set; } = " ";
-        private string _activeFound { get; set; } = " ";
-        private string _activeFoundAll { get; set; } = " ";
+        private string ActiveSeeking { get; set; } = " ";
+        private string ActiveFound { get; set; } = " ";
+        private string ActiveFoundAll { get; set; } = " ";
         public Home()
         {
             InitializeComponent();
@@ -71,7 +71,7 @@ namespace WebPulse
 
             ReleaseList.Children.Add(grid);
         }
-        private void URLBased(MyObject listObject)
+        private void UrlBased(MyObject listObject)
         {
             Grid grid = new Grid();
             grid.Height = Double.NaN;

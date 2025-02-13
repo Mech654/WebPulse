@@ -15,13 +15,13 @@ namespace WebPulse
 {
     public partial class Monitor : UserControl
     {
-        private readonly HelperCode helperCode;
+        private readonly HelperCode _helperCode;
         private ListInitializer _listInitializer;
         private Dictionary<string, string> SetupConfigItems { get; set; }
 
         public Monitor()
         {
-            this.helperCode = new HelperCode();
+            this._helperCode = new HelperCode();
             this._listInitializer = new ListInitializer(this);
 
             InitializeComponent();
@@ -136,7 +136,7 @@ namespace WebPulse
         {
             try
             {
-                string path = helperCode.GetJsonLocation();
+                string path = _helperCode.GetJsonLocation();
                 Debug.WriteLine("File path: " + path);
 
                 string directory = Path.GetDirectoryName(path);
@@ -197,7 +197,7 @@ namespace WebPulse
         {
             try
             {
-                string path = helperCode.GetJsonLocation();
+                string path = _helperCode.GetJsonLocation();
 
                 if (File.Exists(path))
                 {
@@ -210,7 +210,7 @@ namespace WebPulse
                     {
                         if (obj.Method == "urlbased")
                         {
-                            _listInitializer.URLBased(obj);
+                            _listInitializer.UrlBased(obj);
                         }
                     }
                 }

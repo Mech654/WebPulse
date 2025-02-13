@@ -10,6 +10,7 @@
             <Color x:Key="TextBlockColor">#484B6A</Color>
             <Color x:Key="ControlBackgroundColor">#BFBFC1</Color>
             <Color x:Key="MainContentBackgroundColor"> #FFFFFF</Color>
+            <Color x:Key="BorderLineColor"> #00202020</Color>
             
             <!-- Dark Colors -->
             <Color x:Key="DarkPrimaryButtonBackgroundColor">#333333</Color>
@@ -17,6 +18,7 @@
             <Color x:Key="DarkTextBlockColor">#D1D1D1</Color>
             <Color x:Key="DarkControlBackgroundColor">#3D3D3D</Color>
             <Color x:Key="DarkMainContentBackgroundColor">#393939</Color>
+            <Color x:Key="DarkBorderLineColor"> #202020</Color>
             
 
 
@@ -26,7 +28,8 @@
             <SolidColorBrush x:Key="TextBlockBrush" Color="{StaticResource TextBlockColor}" />
             <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource ControlBackgroundColor}" />
             <SolidColorBrush x:Key="MainContentBackground" Color="{StaticResource MainContentBackgroundColor}" />
-
+            <SolidColorBrush x:Key="BorderLineBrush" Color="{StaticResource BorderLineColor}" />
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

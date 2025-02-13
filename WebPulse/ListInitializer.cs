@@ -104,12 +104,14 @@ namespace WebPulse
             _monitor.DynamicListBox.Children.Add(grid);
         }
 
-        public void URLBased(MyObject listObject)
+        public void UrlBased(MyObject listObject)
         {
+            Brush bgBrush = (Brush)Application.Current.Resources["PrimaryButtonBackgroundBrush"];
+            Brush fgBrush = (Brush)Application.Current.Resources["PrimaryButtonTextBrush"];
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
-            grid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+            grid.Background = bgBrush;
             grid.Margin = new Thickness(10, 10, 10, 10);
 
             ColumnDefinition col1 = new ColumnDefinition();
@@ -187,15 +189,18 @@ namespace WebPulse
             {
                 SelectedItem = listObject.TimeUnit,
                 BorderThickness = new Thickness(0),
+                Foreground = fgBrush,
+                Background = Brushes.Aqua,
                 Height = 40,
-                Foreground = new SolidColorBrush(Colors.Black),
-                FontSize = 12,
+                FontSize = 12, 
                 HorizontalContentAlignment = HorizontalAlignment.Left,
-                Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Padding = new Thickness(10),
                 VerticalAlignment = VerticalAlignment.Top
             };
+            
+            unit.Style = (Style)Application.Current.Resources["AquaComboBoxStyle"];
+
 
             TextBlock remaining = new TextBlock
             {
@@ -242,15 +247,15 @@ namespace WebPulse
             remaining.Tag = new String[] { listObject.Name, "remaining" };
             lightCheckBox.Tag = new String[] { listObject.Name, "light" };
 
-            FocusHandler _focusHandler = new FocusHandler();
+            FocusHandler focusHandler = new FocusHandler();
 
             // Eventhandlers
-            url.LostFocus += _focusHandler.LostFocus;
-            name.LostFocus += _focusHandler.LostFocus;
-            time.LostFocus += _focusHandler.LostFocus;
-            unit.SelectionChanged += _focusHandler.LostFocus;
-            remaining.LostFocus += _focusHandler.LostFocus;
-            lightCheckBox.LostFocus += _focusHandler.LostFocus;
+            url.LostFocus += focusHandler.LostFocus;
+            name.LostFocus += focusHandler.LostFocus;
+            time.LostFocus += focusHandler.LostFocus;
+            unit.SelectionChanged += focusHandler.LostFocus;
+            remaining.LostFocus += focusHandler.LostFocus;
+            lightCheckBox.LostFocus += focusHandler.LostFocus;
 
 
             grid.Children.Add(name);

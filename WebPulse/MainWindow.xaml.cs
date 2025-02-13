@@ -13,16 +13,16 @@ namespace WebPulse
 {
     public partial class MainWindow : Window
     {
-        Settings settings = new Settings();
-        private BrowserFetcher _browserFetcher;
+        Settings _settings = new Settings();
+        private readonly BrowserFetcher _browserFetcher;
         private IBrowser _browser;
-        private HelperCode helperCode;
+        private readonly HelperCode _helperCode;
 
         public MainWindow()
         {
             InitializeComponent();
             MainContent.Content = new Home();
-            helperCode = new HelperCode();
+            _helperCode = new HelperCode();
             _browserFetcher = new BrowserFetcher();
             Loaded += MainWindow_Loaded;
         }
@@ -101,7 +101,7 @@ namespace WebPulse
             {
                 Debug.WriteLine("Starting Monitoring Loop...");
 
-                var objects = helperCode.GetSetupJsonObjects();
+                var objects = _helperCode.GetSetupJsonObjects();
 
                 var queue = new SortedList<DateTime, MyObject>();
                 foreach (var obj in objects)

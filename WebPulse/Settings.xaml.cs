@@ -5,9 +5,9 @@ namespace WebPulse
 {
     public partial class Settings : UserControl
     {
-        public static string theme;
-        public static string language;
-        public static string fontSize;
+        public static string Theme;
+        public static string Language;
+        public static string FontSize;
 
         public Settings()
         {
@@ -15,19 +15,19 @@ namespace WebPulse
         }
 
 
-        public void languageChanged(object sender, SelectionChangedEventArgs e)
+        public void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
-            language = (this.LanguageComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            Language = (this.LanguageComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
         }
 
-        public void fontSizeChanged(object sender, SelectionChangedEventArgs e)
+        public void FontSizeChanged(object sender, SelectionChangedEventArgs e)
         {
-            fontSize = (this.FontSizeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            FontSize = (this.FontSizeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
         }
 
 
 
-        private void themeChanged(object sender, SelectionChangedEventArgs e)
+        private void ThemeChanged(object sender, SelectionChangedEventArgs e)
         {
             // Your logic for theme change
             var selectedItem = (ComboBoxItem)((ComboBox)sender).SelectedItem;

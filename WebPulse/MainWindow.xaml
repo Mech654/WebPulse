@@ -48,7 +48,7 @@
             </Button.Background>
             <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
         </Button>
-        <Border Grid.Column="1" BorderThickness="0.8,0,0,0" BorderBrush="#E6C766">
+        <Border Grid.Column="1" BorderThickness="0.8,0,0,0" BorderBrush="{DynamicResource BorderLineBrush}">
             <ContentControl x:Name="MainContent" Focusable="True"/>
         </Border>
     </Grid>
