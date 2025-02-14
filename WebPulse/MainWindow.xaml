@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         MinWidth="600"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStyle="None"
+        Background="Transparent"
+        ResizeMode="CanResize"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="MainWindow" Height="700" Width="1000">
 
     <Window.Resources>
@@ -18,8 +22,33 @@
             <ColumnDefinition Width="0.3*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="Aqua">
+            <DockPanel Height="30" Background="{DynamicResource PrimaryButtonBackgroundBrush}">
+                <TextBlock Text="My App" Foreground="White" VerticalAlignment="Center" Margin="0,0,0,0"/>
 
-        <StackPanel Grid.Column="0" Background="{DynamicResource PrimaryButtonBackgroundBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Click="MinimizeApp" Width="20" Height="20" Background="Transparent" BorderThickness="0" Focusable="False" Margin="10,0,10,0">
+                        <Image Source="resources/light-minimize.png" Stretch="Uniform"/>
+                    </Button>
+                    <Button Click="MaximizeApp" Width="20" Height="20" Background="Transparent" BorderThickness="0" Focusable="False" Margin="10,0,10,0">
+                        <Image Source="resources/light-window.png" Stretch="Uniform"/>
+                    </Button>
+                    <Button Click="CloseApp" Width="20" Height="20" Background="Transparent" BorderThickness="0" Focusable="False">
+                        <Image Source="resources/lightclose.png" Stretch="Uniform"/>
+                    </Button>
+                </StackPanel>
+             </DockPanel>
+        </Grid>
+
+        
+        
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource PrimaryButtonBackgroundBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Image Source="\resources\logo.png" HorizontalAlignment="Center" Width="Auto" Height="Auto" MaxWidth="300" MaxHeight="300" />
             <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20"  Foreground="{DynamicResource PrimaryButtonTextBrush}">
                 Welcome to WebPulse!
@@ -40,15 +69,18 @@
                     <TextBlock Text="Settings" Foreground="{DynamicResource PrimaryButtonTextBrush}" />
                 </Button.Content>
             </Button>
+            
+            
         </StackPanel>
-
-        <Button Grid.Column="0" Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        
+        <Button Grid.Row="1" Grid.Column="0" Width="50" Height="50" Margin="0,0,0,20" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button.Background>
                 <ImageBrush ImageSource="\resources\help.png"/>
             </Button.Background>
             <Hyperlink NavigateUri="https://www.example.com" RequestNavigate="Hyperlink_RequestNavigate"/>
         </Button>
-        <Border Grid.Column="1" BorderThickness="0.8,0,0,0" BorderBrush="{DynamicResource BorderLineBrush}">
+        
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="0.8,0,0,0" BorderBrush="{DynamicResource BorderLineBrush}">
             <ContentControl x:Name="MainContent" Focusable="True"/>
         </Border>
     </Grid>

@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace WebPulse
@@ -200,6 +201,17 @@ namespace WebPulse
             }
             base.OnClosed(e);
         }
+        
+        private void MinimizeApp(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+        private void MaximizeApp(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        private void CloseApp(object sender, RoutedEventArgs e) => Close();
+        
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+
 
 
     }
