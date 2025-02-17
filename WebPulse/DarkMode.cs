@@ -21,6 +21,7 @@ namespace WebPulse
             app.Resources["ControlBackgroundBrush"] = new SolidColorBrush((Color)Application.Current.Resources["DarkControlBackgroundColor"]);
             app.Resources["MainContentBackground"] = new SolidColorBrush((Color)Application.Current.Resources["DarkMainContentBackgroundColor"]);
             app.Resources["BorderLineBrush"] = new SolidColorBrush((Color)Application.Current.Resources["DarkBorderLineColor"]);
+            
 
         }
 

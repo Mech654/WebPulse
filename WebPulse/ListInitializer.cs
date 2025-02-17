@@ -21,6 +21,7 @@ namespace WebPulse
 
         public void CreateListDescriptionGridAndItems()
         {
+            Brush fgBrush = (Brush)Application.Current.Resources["PrimaryButtonTextBrush"];
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
@@ -38,6 +39,8 @@ namespace WebPulse
                 Text = "Name",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -47,6 +50,8 @@ namespace WebPulse
                 Text = "URL/Code",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -56,6 +61,8 @@ namespace WebPulse
                 Text = "Refresh",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -65,6 +72,8 @@ namespace WebPulse
                 Text = "Time Unit",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -74,6 +83,8 @@ namespace WebPulse
                 Text = "Remaining",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -83,6 +94,8 @@ namespace WebPulse
                 Text = "",
                 FontSize = 12,
                 Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
             };
@@ -129,7 +142,6 @@ namespace WebPulse
             col3.Width = new GridLength(0.5, GridUnitType.Star);
             col4.Width = new GridLength(70, GridUnitType.Pixel);
             col5.Width = new GridLength(1.2, GridUnitType.Star);
-
             col6.Width = new GridLength(1, GridUnitType.Star);
 
             grid.ColumnDefinitions.Add(col1);
@@ -144,7 +156,7 @@ namespace WebPulse
                 Text = listObject.Name,
                 BorderThickness = new Thickness(0),
                 Height = 40,
-                Foreground = new SolidColorBrush(Colors.Black),
+                Foreground = fgBrush,
                 FontSize = 12,
                 TextAlignment = TextAlignment.Center,
                 Padding = new Thickness(2),
@@ -162,7 +174,7 @@ namespace WebPulse
                 Text = listObject.Url,
                 BorderThickness = new Thickness(0),
                 Height = 40,
-                Foreground = new SolidColorBrush(Colors.Black),
+                Foreground = fgBrush,
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
@@ -176,7 +188,7 @@ namespace WebPulse
                 Text = listObject.Refresh.ToString(),
                 BorderThickness = new Thickness(0),
                 Height = 40,
-                Foreground = new SolidColorBrush(Colors.Black),
+                Foreground = fgBrush,
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
@@ -190,7 +202,7 @@ namespace WebPulse
                 SelectedItem = listObject.TimeUnit,
                 BorderThickness = new Thickness(0),
                 Foreground = fgBrush,
-                Background = Brushes.Aqua,
+                Background = bgBrush,
                 Height = 40,
                 FontSize = 12, 
                 HorizontalContentAlignment = HorizontalAlignment.Left,
@@ -199,7 +211,7 @@ namespace WebPulse
                 VerticalAlignment = VerticalAlignment.Top
             };
             
-            unit.Style = (Style)Application.Current.Resources["AquaComboBoxStyle"];
+            unit.Style = (Style)_monitor.FindResource(typeof(ComboBox));
 
 
             TextBlock remaining = new TextBlock
@@ -207,7 +219,7 @@ namespace WebPulse
                 Text = "1 hour 30 minutes",
              
                 Height = 40,
-                Foreground = new SolidColorBrush(Colors.Black),
+                Foreground = fgBrush,
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
@@ -267,15 +279,7 @@ namespace WebPulse
 
             _monitor.DynamicListBox.Children.Add(grid);
 
-            unit.Loaded += (s, e) =>
-            {
-                var popupContainer = (Popup)unit.Template.FindName("PART_Popup", unit);
-                if (popupContainer != null)
-                {
-                    popupContainer.PlacementTarget = unit;
-                    popupContainer.Placement = PlacementMode.Right;
-                }
-            };
+
         }
     }
 }

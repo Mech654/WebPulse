@@ -32,23 +32,23 @@ namespace WebPulse
         {
             // Create a new dictionary for this setup session.
             SetupConfigItems = new Dictionary<string, string>();
-            this.setupPage.Visibility = Visibility.Visible;
+            this.SetupPage.Visibility = Visibility.Visible;
         }
 
         private void Exit_Setup(object sender, RoutedEventArgs e)
         {
-            this.setupPage.Visibility = Visibility.Collapsed;
+            this.SetupPage.Visibility = Visibility.Collapsed;
         }
 
         private void URL_Setup(object sender, RoutedEventArgs e)
         {
             this.ChoicePage.Visibility = Visibility.Collapsed;
-            this.URL.Visibility = Visibility.Visible;
+            this.Url.Visibility = Visibility.Visible;
         }
 
         private async void Validiate_URL(object sender, RoutedEventArgs e)
         {
-            string url = this.URL_Field.Text;
+            string url = this.UrlField.Text;
             string cleanedUrl = url.Replace("*", "");
 
             if (cleanedUrl.StartsWith("http://") || cleanedUrl.StartsWith("https://"))
@@ -66,44 +66,44 @@ namespace WebPulse
                         SetupConfigItems.Add("cleaned", cleanedUrl);
                         SetupConfigItems.Add("enabled", "true");
 
-                        this.URL.Visibility = Visibility.Collapsed;
-                        this.namePage.Visibility = Visibility.Visible;
+                        this.Url.Visibility = Visibility.Collapsed;
+                        this.NamePage.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        this.URL_Field.Text = "Invalid URL. Please try again.";
+                        this.UrlField.Text = "Invalid URL. Please try again.";
                     }
                 }
                 catch (Exception)
                 {
-                    this.URL_Field.Text = "Failed to open the URL. Please try again.";
+                    this.UrlField.Text = "Failed to open the URL. Please try again.";
                 }
             }
             else
             {
-                this.URL_Field.Text = "Please enter a valid URL starting with http:// or https://.";
+                this.UrlField.Text = "Please enter a valid URL starting with http:// or https://.";
             }
         }
 
         private void NameSetup(object sender, RoutedEventArgs e)
         {
-            string name = this.name.Text;
+            string name = this.Name.Text;
             if (name.Length > 0)
             {
                 SetupConfigItems.Add("name", name);
-                this.namePage.Visibility = Visibility.Collapsed;
-                this.refreshPage.Visibility = Visibility.Visible;
+                this.NamePage.Visibility = Visibility.Collapsed;
+                this.RefreshPage.Visibility = Visibility.Visible;
             }
             else
             {
-                this.name.Text = "Please enter a valid name.";
+                this.Name.Text = "Please enter a valid name.";
             }
         }
 
         private void RefreshSetup(object sender, RoutedEventArgs e)
         {
-            string refresh = refreshrate.Text;
-            string selectedItem = (timeUnit.SelectedItem as ComboBoxItem)?.Content as string;
+            string refresh = Refreshrate.Text;
+            string selectedItem = (TimeUnit.SelectedItem as ComboBoxItem)?.Content as string;
             bool isInteger = int.TryParse(refresh, out int result);
 
             if (isInteger)
@@ -112,23 +112,23 @@ namespace WebPulse
                 {
                     SetupConfigItems.Add("refresh", refresh);
                     SetupConfigItems.Add("timeunit", selectedItem);
-                    URL_Field.Text = "";
-                    name.Text = "";
-                    refreshrate.Text = "";
-                    timeUnit.SelectedIndex = -1;
-                    refreshPage.Visibility = Visibility.Collapsed;
-                    successPage.Visibility = Visibility.Visible;
+                    UrlField.Text = "";
+                    Name.Text = "";
+                    Refreshrate.Text = "";
+                    TimeUnit.SelectedIndex = -1;
+                    RefreshPage.Visibility = Visibility.Collapsed;
+                    SuccessPage.Visibility = Visibility.Visible;
                     // Pass the current session's dictionary to SaveJson.
                     SaveJson(SetupConfigItems);
                 }
                 else
                 {
-                    refreshrate.Text = "Please select a time unit.";
+                    Refreshrate.Text = "Please select a time unit.";
                 }
             }
             else
             {
-                refreshrate.Text = "Please enter a valid number.";
+                Refreshrate.Text = "Please enter a valid number.";
             }
         }
 

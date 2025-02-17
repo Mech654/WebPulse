@@ -1,4 +1,5 @@
 .vs/
+.idea/
 # Ignore packages folder
 /packages/
 
@@ -6,3 +7,5 @@
 **/bin/
 **/obj/
 
+# Ignore user-specific DotSettings files
+**/WebPulse.sln.DotSettings.user

@@ -15,6 +15,7 @@
             <!-- Dark Colors -->
             <Color x:Key="DarkPrimaryButtonBackgroundColor">#333333</Color>
             <Color x:Key="DarkPrimaryButtonTextColor">#D1D1D1</Color>
+            <Color x:Key="DarkSecondaryTextColor"> #B0B0B0 </Color>
             <Color x:Key="DarkTextBlockColor">#D1D1D1</Color>
             <Color x:Key="DarkControlBackgroundColor">#3D3D3D</Color>
             <Color x:Key="DarkMainContentBackgroundColor">#393939</Color>
@@ -25,6 +26,7 @@
             <!-- Brushes -->
             <SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="{StaticResource PrimaryButtonBackgroundColor}" />
             <SolidColorBrush x:Key="PrimaryButtonTextBrush" Color="{StaticResource PrimaryButtonTextColor}" />
+            <SolidColorBrush x:Key="SecondaryButtonTextBrush" Color="{StaticResource PrimaryButtonTextColor}" />
             <SolidColorBrush x:Key="TextBlockBrush" Color="{StaticResource TextBlockColor}" />
             <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource ControlBackgroundColor}" />
             <SolidColorBrush x:Key="MainContentBackground" Color="{StaticResource MainContentBackgroundColor}" />
