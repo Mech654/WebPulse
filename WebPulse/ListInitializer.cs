@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 namespace WebPulse
 {
@@ -27,11 +22,11 @@ namespace WebPulse
             grid.VerticalAlignment = VerticalAlignment.Stretch;
             grid.Margin = new Thickness(10, 10, 10, 10);
 
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.8, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.5, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(70, GridUnitType.Pixel) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.4, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             TextBlock nameField = new TextBlock
@@ -58,29 +53,31 @@ namespace WebPulse
 
             TextBlock timeField = new TextBlock
             {
-                Text = "Refresh",
+                Text = "Refresh ",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Foreground = fgBrush,
                 FontWeight = FontWeights.Bold,
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                TextAlignment = TextAlignment.Center
+            };
+            
+            TextBlock timeField2 = new TextBlock
+            {
+                Text = "  Rate",
+                FontSize = 12,
+                Background = Brushes.Transparent,
+                Foreground = fgBrush,
+                FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 TextAlignment = TextAlignment.Center
             };
 
-            TextBlock unitField = new TextBlock
-            {
-                Text = "Time Unit",
-                FontSize = 12,
-                Background = Brushes.Transparent,
-                Foreground = fgBrush,
-                FontWeight = FontWeights.Bold,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                TextAlignment = TextAlignment.Center
-            };
+
 
             TextBlock remainingField = new TextBlock
             {
-                Text = "Remaining",
+                Text = "Releases",
                 FontSize = 12,
                 Background = Brushes.Transparent,
                 Foreground = fgBrush,
@@ -103,14 +100,15 @@ namespace WebPulse
             Grid.SetColumn(nameField, 0);
             Grid.SetColumn(urlField, 1);
             Grid.SetColumn(timeField, 2);
-            Grid.SetColumn(unitField, 3);
+            Grid.SetColumn(timeField2, 3);
             Grid.SetColumn(remainingField, 4);
             Grid.SetColumn(buttonField, 5);
 
             grid.Children.Add(nameField);
             grid.Children.Add(urlField);
             grid.Children.Add(timeField);
-            grid.Children.Add(unitField);
+            grid.Children.Add(timeField2);
+
             grid.Children.Add(remainingField);
             grid.Children.Add(buttonField);
 
@@ -127,30 +125,14 @@ namespace WebPulse
             grid.Background = bgBrush;
             grid.Margin = new Thickness(10, 10, 10, 10);
 
-            ColumnDefinition col1 = new ColumnDefinition();
-            ColumnDefinition col2 = new ColumnDefinition();
-            ColumnDefinition col3 = new ColumnDefinition();
-            ColumnDefinition col4 = new ColumnDefinition();
-            ColumnDefinition col5 = new ColumnDefinition();
-
-            ColumnDefinition col6 = new ColumnDefinition();
-            ColumnDefinition col7 = new ColumnDefinition();
-            ColumnDefinition col8 = new ColumnDefinition();
-
-            col1.Width = new GridLength(0.8, GridUnitType.Star);
-            col2.Width = new GridLength(1, GridUnitType.Star);
-            col3.Width = new GridLength(0.5, GridUnitType.Star);
-            col4.Width = new GridLength(70, GridUnitType.Pixel);
-            col5.Width = new GridLength(1.2, GridUnitType.Star);
-            col6.Width = new GridLength(1, GridUnitType.Star);
-
-            grid.ColumnDefinitions.Add(col1);
-            grid.ColumnDefinitions.Add(col2);
-            grid.ColumnDefinitions.Add(col3);
-            grid.ColumnDefinitions.Add(col4);
-            grid.ColumnDefinitions.Add(col5);
-            grid.ColumnDefinitions.Add(col6);
-
+            
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.4, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            
             TextBox name = new TextBox
             {
                 Text = listObject.Name,
@@ -185,7 +167,7 @@ namespace WebPulse
 
             TextBox time = new TextBox
             {
-                Text = listObject.Refresh.ToString(),
+                Text = listObject.Refresh,
                 BorderThickness = new Thickness(0),
                 Height = 40,
                 Foreground = fgBrush,
@@ -193,7 +175,7 @@ namespace WebPulse
                 Background = Brushes.Transparent,
                 Padding = new Thickness(10),
                 TextAlignment = TextAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top
             };
 
@@ -206,7 +188,7 @@ namespace WebPulse
                 Height = 40,
                 FontSize = 12, 
                 HorizontalContentAlignment = HorizontalAlignment.Left,
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Padding = new Thickness(10),
                 VerticalAlignment = VerticalAlignment.Top
             };
@@ -214,9 +196,9 @@ namespace WebPulse
             unit.Style = (Style)_monitor.FindResource(typeof(ComboBox));
 
 
-            TextBlock remaining = new TextBlock
+            TextBlock releases = new TextBlock
             {
-                Text = "1 hour 30 minutes",
+                Text = "3",
              
                 Height = 40,
                 Foreground = fgBrush,
@@ -230,8 +212,8 @@ namespace WebPulse
 
             CheckBox lightCheckBox = new CheckBox
             {
-                Content = "Enable",
                 IsChecked = true,
+                ToolTip = "Enable/Disable",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -248,16 +230,16 @@ namespace WebPulse
             Grid.SetColumn(url, 1);
             Grid.SetColumn(time, 2);
             Grid.SetColumn(unit, 3);
-            Grid.SetColumn(remaining, 4);
+            Grid.SetColumn(releases, 4);
             Grid.SetColumn(lightCheckBox, 5);
 
             // Always put the listobject name as first item and the type of item as second item in the tag
-            name.Tag = new String[] { listObject.Name, "name" };
-            url.Tag = new String[] { listObject.Name, "url" };
-            time.Tag = new String[] { listObject.Name, "refresh" };
-            unit.Tag = new String[] { listObject.Name, "TimeUnit" };
-            remaining.Tag = new String[] { listObject.Name, "remaining" };
-            lightCheckBox.Tag = new String[] { listObject.Name, "light" };
+            name.Tag = new [] { listObject.Name, "name" };
+            url.Tag = new [] { listObject.Name, "url" };
+            time.Tag = new [] { listObject.Name, "refresh" };
+            unit.Tag = new [] { listObject.Name, "TimeUnit" };
+            releases.Tag = new [] { listObject.Name, "remaining" };
+            lightCheckBox.Tag = new [] { listObject.Name, "light" };
 
             FocusHandler focusHandler = new FocusHandler();
 
@@ -266,7 +248,7 @@ namespace WebPulse
             name.LostFocus += focusHandler.LostFocus;
             time.LostFocus += focusHandler.LostFocus;
             unit.SelectionChanged += focusHandler.LostFocus;
-            remaining.LostFocus += focusHandler.LostFocus;
+            releases.LostFocus += focusHandler.LostFocus;
             lightCheckBox.LostFocus += focusHandler.LostFocus;
 
 
@@ -274,7 +256,7 @@ namespace WebPulse
             grid.Children.Add(url);
             grid.Children.Add(time);
             grid.Children.Add(unit);
-            grid.Children.Add(remaining);
+            grid.Children.Add(releases);
             grid.Children.Add(lightCheckBox);
 
             _monitor.DynamicListBox.Children.Add(grid);

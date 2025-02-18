@@ -15,6 +15,13 @@
 
     <Window.Resources>
     </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
+            CaptionHeight="0" 
+            ResizeBorderThickness="5"
+            CornerRadius="0"
+            GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,9 +34,9 @@
         </Grid.RowDefinitions>
         
         <!-- Header -->
-        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="Aqua">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="Aqua" VerticalAlignment="Top" Margin="0,0,0,0 ">
             <DockPanel Height="30" Background="{DynamicResource PrimaryButtonBackgroundBrush}">
-                <TextBlock Text="My App" Foreground="White" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                <TextBlock Text="WebPulse" Foreground="{DynamicResource PrimaryButtonTextBrush}" VerticalAlignment="Center" Margin="20,0,0,0"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Click="MinimizeApp" Width="20" Height="20" Background="Transparent" BorderThickness="0" Focusable="False" Margin="10,0,10,0">
                         <Image Source="resources/light-minimize.png" Stretch="Uniform"/>
@@ -38,7 +45,7 @@
                         <Image Source="resources/light-window.png" Stretch="Uniform"/>
                     </Button>
                     <Button Click="CloseApp" Width="20" Height="20" Background="Transparent" BorderThickness="0" Focusable="False" Margin="10,0,10,0">
-                        <Image Source="resources/lightclose.png" Stretch="Uniform"/>
+                        <Image Source="resources/light-close.png" Stretch="Uniform"/>
                     </Button>
                 </StackPanel>
             </DockPanel>
