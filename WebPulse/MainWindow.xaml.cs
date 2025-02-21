@@ -10,11 +10,14 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
+using WebPulse.models;
+
 namespace WebPulse
 {
     public partial class MainWindow : Window
     {
-        Settings _settings = new Settings();
+        #region Variables and Constructor
+
         private readonly BrowserFetcher _browserFetcher;
         private IBrowser _browser;
         private readonly HelperCode _helperCode;
@@ -28,57 +31,58 @@ namespace WebPulse
             Loaded += MainWindow_Loaded;
         }
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            await DownloadBrowserOnce();
-            await LaunchBrowserOnce();
-            Start_Monitoring();
-            Debug.WriteLine("Starting");
-        }
 
-        private async void Start_Monitoring()
-        {
-            await Monitoring_loop();
-        }
+        #endregion
+        #region MainLogic
 
-        private void Home_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new Home();
-        }
 
-        private void Monitor_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new Monitor();
-        }
 
-        public void Settings_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new Settings();
-        }
 
-        public void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
-            e.Handled = true;
-        }
 
-        private async Task DownloadBrowserOnce()
-        {
-            await _browserFetcher.DownloadAsync();
-        }
 
-        private async Task LaunchBrowserOnce()
-        {
-            _browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
-        }
 
+
+        private void SaveRelease(Dictionary<string, string> configItems) //Copy of the method used for putting setups some names might not be most suitable.
+        {
+            try
+            {
+                string path = _helperCode.GetReleaseJson();
+                Debug.WriteLine("File path: " + path);
+
+                string directory = Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                List<Dictionary<string, string>> jsonList = new List<Dictionary<string, string>>();
+
+                if (File.Exists(path))
+                {
+                    string existingJson = File.ReadAllText(path);
+                    jsonList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(existingJson);
+                }
+
+                jsonList.Add(new Dictionary<string, string>(configItems));
+
+                string json = JsonConvert.SerializeObject(jsonList, Formatting.Indented);
+
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving the setup configuration: " + ex.Message);
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+        }
+        
         private async Task<bool> LookForRelease(MyObject myObject)
         {
             WebScraper webScraper = new WebScraper(_browser);
+            
             if (myObject.Method == "urlbased")
             {
                 string updatedUrl = UpdateUrl(myObject.Url, int.Parse(myObject.Count));
-                Debug.WriteLine(updatedUrl);
                 return await webScraper.ScrapeWebsiteAsync(updatedUrl);
             }
             else if (myObject.Method == "codebased")
@@ -90,20 +94,12 @@ namespace WebPulse
                 return false;
             }
         }
-
-        private string UpdateUrl(string url, int count)
-        {
-            return Regex.Replace(url, @"\*(\d+)\*", match => (count + 1).ToString());
-        }
-
         private async Task Monitoring_loop()
         {
             try
             {
                 Debug.WriteLine("Starting Monitoring Loop...");
-
                 var objects = _helperCode.GetSetupJsonObjects();
-
                 var queue = new SortedList<DateTime, MyObject>();
                 foreach (var obj in objects)
                 {
@@ -120,9 +116,6 @@ namespace WebPulse
                         }
                     }
                 }
-
-                Debug.WriteLine($"Monitoring started with {queue.Count} items in queue.");
-
                 while (true)
                 {
                     if (queue.Count == 0)
@@ -150,6 +143,9 @@ namespace WebPulse
                         if (release)
                         {
                             Debug.WriteLine("Resource exists!");
+                            //SaveRelease();
+                            //logic for in-app notification
+                            //logic for in-desktop notification
                         }
                         else
                         {
@@ -180,26 +176,40 @@ namespace WebPulse
             }
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        #endregion
+        #region Navigationlevel
 
-        private int ConvertToMilliseconds(int refresh, string timeUnit)
+        private void Home_Click(object sender, RoutedEventArgs e)
         {
-            return timeUnit switch
-            {
-                "Minutes" => refresh * 60 * 1000,
-                "Hours" => refresh * 60 * 60 * 1000,
-                "Days" => refresh * 24 * 60 * 60 * 1000,
-                "Weeks" => refresh * 7 * 24 * 60 * 60 * 1000,
-                _ => 60 * 1000 
-            };
+            MainContent.Content = new Home();
+        }
+        
+        private void Monitor_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new Monitor();
         }
 
-        protected override async void OnClosed(EventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            if (_browser != null)
-            {
-                await _browser.CloseAsync();
-            }
-            base.OnClosed(e);
+            MainContent.Content = new Settings();
+        }
+        
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
         
         private void MinimizeApp(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -210,9 +220,63 @@ namespace WebPulse
         {
             this.DragMove();
         }
+        
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_browser != null)
+            {
+                await _browser.CloseAsync();
+            }
+            base.OnClosed(e);
+        }
+        
+        #endregion
+        #region DoOnce
+        
+        private async Task DownloadBrowserOnce()
+        {
+            await _browserFetcher.DownloadAsync();
+        }
+        private async Task LaunchBrowserOnce()
+        {
+            _browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+        }
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await DownloadBrowserOnce();
+            await LaunchBrowserOnce();
+            Start_Monitoring();
+            Debug.WriteLine("Starting");
+        }
+        private async void Start_Monitoring()
+        {
+            await Monitoring_loop();
+        }
+        
+        
+        
+        
 
+        #endregion
+        #region Utility
+        
+        private string UpdateUrl(string url, int count)
+        {
+            return Regex.Replace(url, @"\*(\d+)\*", match => (count + 1).ToString());
+        }
+        private int ConvertToMilliseconds(int refresh, string timeUnit)
+        {
+            return timeUnit switch
+            {
+                "Minutes" => refresh * 60 * 1000,
+                "Hours" => refresh * 60 * 60 * 1000,
+                "Days" => refresh * 24 * 60 * 60 * 1000,
+                "Weeks" => refresh * 7 * 24 * 60 * 60 * 1000,
+                _ => 60 * 1000 
+            };
+        }        
 
-
-
+        #endregion
+        
     }
 }

@@ -5,19 +5,24 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using WebPulse.models;
 
 namespace WebPulse
 {
     public class HelperCode
     {
-        public string GetJsonLocation()
+        public string GetSetupJson()
         {
             return string.Join("\\", Directory.GetCurrentDirectory(), "SetupJson.json");
         }
-
+        public string GetReleaseJson()
+        {
+            return string.Join("\\", Directory.GetCurrentDirectory(), "ReleaseJson.json");
+        }
+        
         public List<MyObject> GetSetupJsonObjects()
         {
-            string path = GetJsonLocation();
+            string path = GetSetupJson();
             if (!File.Exists(path))
             {
                 using (File.Create(path)) { }
@@ -39,7 +44,34 @@ namespace WebPulse
             }
             return objects;
         }
-
+        
+        public List<MyReleases> GetReleaseJsonObjects()
+        {
+            Debug.WriteLine("Requested Setup objects...");
+            string path = GetReleaseJson();
+            if (!File.Exists(path))
+            {
+                using (File.Create(path)) { }
+                File.WriteAllText(path, "[]");
+                return new List<MyReleases>();
+            }
+            string existingJson = File.ReadAllText(path);
+            if (string.IsNullOrWhiteSpace(existingJson))
+            {
+                Debug.WriteLine("Warning: Config file is empty.");
+                return new List<MyReleases>();
+            }
+            var objects = JsonConvert.DeserializeObject<List<MyReleases>>(existingJson);
+            if (objects == null || objects.Count == 0)
+            {
+                Debug.WriteLine("Warning: No valid objects found in JSON.");
+                return new List<MyReleases>();
+            }
+            return objects;
+        }
+        
+        
+        
         public void UpdateJsonValue(string targetName, string propertyName, string newValue)
         {
             var objects = GetSetupJsonObjects();
@@ -52,7 +84,7 @@ namespace WebPulse
             if (prop != null && prop.CanWrite)
                 prop.SetValue(obj, newValue);
             string newJson = JsonConvert.SerializeObject(objects, Formatting.Indented);
-            File.WriteAllText(GetJsonLocation(), newJson);
+            File.WriteAllText(GetSetupJson(), newJson);
         }
     }
 }

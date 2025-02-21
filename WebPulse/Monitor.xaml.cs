@@ -10,13 +10,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using WebPulse.models;
 
 namespace WebPulse
 {
-    public partial class Monitor : UserControl
+    public partial class Monitor : UserControl 
     {
         private readonly HelperCode _helperCode;
-        private ListInitializer _listInitializer;
+        private readonly ListInitializer _listInitializer;
         private Dictionary<string, string> SetupConfigItems { get; set; }
 
         public Monitor()
@@ -28,7 +29,9 @@ namespace WebPulse
             UpdateList();
         }
 
-        private void Start_Setup(object sender, RoutedEventArgs e)
+        #region Setup
+
+         private void Start_Setup(object sender, RoutedEventArgs e)
         {
             // Create a new dictionary for this setup session.
             SetupConfigItems = new Dictionary<string, string>();
@@ -132,11 +135,14 @@ namespace WebPulse
             }
         }
 
+        #endregion
+       
+
         private void SaveJson(Dictionary<string, string> configItems)
         {
             try
             {
-                string path = _helperCode.GetJsonLocation();
+                string path = _helperCode.GetSetupJson();
                 Debug.WriteLine("File path: " + path);
 
                 string directory = Path.GetDirectoryName(path);
@@ -197,7 +203,7 @@ namespace WebPulse
         {
             try
             {
-                string path = _helperCode.GetJsonLocation();
+                string path = _helperCode.GetSetupJson();
 
                 if (File.Exists(path))
                 {
@@ -211,7 +217,7 @@ namespace WebPulse
                         if (obj.Method == "urlbased")
                         {
                             _listInitializer.UrlBased(obj);
-                        }
+                        } 
                     }
                 }
             }
@@ -222,7 +228,7 @@ namespace WebPulse
             }
         }
 
-        public string ExtractNumber(string url)
+        private string ExtractNumber(string url)
         {
             string pattern = @"\*(\d+)\*";
             Match match = Regex.Match(url, pattern);
@@ -232,18 +238,5 @@ namespace WebPulse
             }
             throw new ArgumentException("The URL does not contain a number surrounded by asterisks.");
         }
-    }
-
-    public class MyObject
-    {
-        public string Method { get; set; }
-        public string Url { get; set; }
-        public string Cleaned { get; set; }
-        public string Name { get; set; }
-        public string Refresh { get; set; }
-        public string TimeUnit { get; set; }
-        public string Code { get; set; }
-        public string Count { get; set; }
-        public string Enabled { get; set; }
     }
 }

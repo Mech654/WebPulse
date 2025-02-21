@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
+using WebPulse.models;
+using WebPulse;
 
 namespace WebPulse
 {
@@ -12,6 +14,7 @@ namespace WebPulse
         private string ActiveSeeking { get; set; } = " ";
         private string ActiveFound { get; set; } = " ";
         private string ActiveFoundAll { get; set; } = " ";
+        private readonly HelperCode _helperCode = new HelperCode();
         public Home()
         {
             InitializeComponent();
@@ -22,6 +25,11 @@ namespace WebPulse
         {
             CreateListDescriptionGridAndItems();
             //I will return here later. Do: 1 . go through every releases in the json file i will make. 2. send it the method
+            var objects = _helperCode.GetReleaseJsonObjects();
+            foreach (var obj in objects)
+            {
+                DisplayReleases(obj);
+            }
         }
 
         private void CreateListDescriptionGridAndItems()
@@ -71,7 +79,7 @@ namespace WebPulse
 
             ReleaseList.Children.Add(grid);
         }
-        private void UrlBased(MyObject listObject)
+        private void DisplayReleases(MyReleases listObject)
         {
             Grid grid = new Grid();
             grid.Height = Double.NaN;
@@ -95,7 +103,7 @@ namespace WebPulse
 
             TextBlock releasesField = new TextBlock
             {
-                Text = listObject.Url,
+                Text = listObject.Link,
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
@@ -112,11 +120,5 @@ namespace WebPulse
 
             ReleaseList.Children.Add(grid);
         }
-    }
-
-    public class Releases
-    {
-        public string Name { get; set; }
-        public int Amount { get; set; }
     }
 }
