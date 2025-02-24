@@ -42,8 +42,16 @@ namespace WebPulse
 
 
 
-        private void SaveRelease(Dictionary<string, string> configItems) //Copy of the method used for putting setups some names might not be most suitable.
+        private void SaveRelease(string currentTime, string objName, string updatedUrl)
         {
+            MyReleases release = new MyReleases
+            {
+                Name = objName,
+                Time = currentTime,
+                Link = updatedUrl,
+                Count = "2"
+            };
+
             try
             {
                 string path = _helperCode.GetReleaseJson();
@@ -55,19 +63,30 @@ namespace WebPulse
                     Directory.CreateDirectory(directory);
                 }
 
-                List<Dictionary<string, string>> jsonList = new List<Dictionary<string, string>>();
-
+                // Check if the file exists
                 if (File.Exists(path))
                 {
                     string existingJson = File.ReadAllText(path);
-                    jsonList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(existingJson);
+
+                    // Deserialize existing JSON into a list
+                    var releaseList = JsonConvert.DeserializeObject<List<MyReleases>>(existingJson) ?? new List<MyReleases>();
+
+                    // Add the new release to the list
+                    releaseList.Add(release);
+
+                    // Serialize the updated list back to JSON
+                    string json = JsonConvert.SerializeObject(releaseList, Formatting.Indented);
+
+                    // Write the updated JSON back to the file
+                    File.WriteAllText(path, json);
                 }
-
-                jsonList.Add(new Dictionary<string, string>(configItems));
-
-                string json = JsonConvert.SerializeObject(jsonList, Formatting.Indented);
-
-                File.WriteAllText(path, json);
+                else
+                {
+                    // If file does not exist, create a new list and add the release
+                    var releaseList = new List<MyReleases> { release };
+                    string json = JsonConvert.SerializeObject(releaseList, Formatting.Indented);
+                    File.WriteAllText(path, json);
+                }
             }
             catch (Exception ex)
             {
@@ -75,25 +94,31 @@ namespace WebPulse
                 Debug.WriteLine("Error: " + ex.Message);
             }
         }
+
+
+
         
-        private async Task<bool> LookForRelease(MyObject myObject)
+        private async Task<(string, bool)> LookForRelease(MyObject myObject)
         {
             WebScraper webScraper = new WebScraper(_browser);
-            
+
             if (myObject.Method == "urlbased")
             {
                 string updatedUrl = UpdateUrl(myObject.Url, int.Parse(myObject.Count));
-                return await webScraper.ScrapeWebsiteAsync(updatedUrl);
+                return (updatedUrl, true);  // Return updated URL and success (true)
             }
             else if (myObject.Method == "codebased")
             {
-                return await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
+                bool result = await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
+                return (myObject.Url, result);  // Return the URL and the result of the scrape (true/false)
             }
             else
             {
-                return false;
+                return ("", false);  // Return an empty string and false if method is not recognized
             }
         }
+
+
         private async Task Monitoring_loop()
         {
             try
@@ -138,12 +163,16 @@ namespace WebPulse
                     try
                     {
                         Debug.WriteLine("Checking for resource...");
-                        bool release = await LookForRelease(obj);
+                        (string updatedUrl, bool isSuccess) = await LookForRelease(obj);
 
-                        if (release)
+
+                        if (isSuccess)
                         {
+                            string currentTime = DateTime.Now.ToString();
+
                             Debug.WriteLine("Resource exists!");
-                            //SaveRelease();
+
+                            SaveRelease(currentTime, obj.Name, updatedUrl);
                             //logic for in-app notification
                             //logic for in-desktop notification
                         }

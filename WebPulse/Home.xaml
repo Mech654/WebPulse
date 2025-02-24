@@ -6,6 +6,36 @@
              xmlns:local="clr-namespace:WebPulse"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="MinimalScrollBar" TargetType="ScrollBar">
+            <Setter Property="Width" Value="4"/> <!-- Super thin scrollbar -->
+            <Setter Property="Opacity" Value="0.6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Width="4">
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineUpCommand" Height="0"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb x:Name="PART_Thumb" Width="4" Height="40" Background="Gray"
+                                          />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineDownCommand" Height="0"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+    </UserControl.Resources>
     <Grid Background="{DynamicResource MainContentBackground}">
         
      <Grid.RowDefinitions>
@@ -42,10 +72,25 @@
         </Grid>
     </Grid>
     <Grid Grid.Row="1">
-        <Border BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" CornerRadius="10" Width="auto" Height="auto" Background="{DynamicResource ControlBackgroundBrush}" Margin="50,50,50,5" Opacity="1">
-            <StackPanel x:Name="ReleaseList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            </StackPanel>
+        <Border BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" 
+                CornerRadius="10" Width="auto" Height="auto" 
+                Background="{DynamicResource ControlBackgroundBrush}" 
+                Margin="50,50,50,5" Opacity="1">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="5">
+                <ScrollViewer.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalScrollBar}"/>
+                </ScrollViewer.Resources>
+    
+                <StackPanel x:Name="ReleaseList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            </ScrollViewer>
+
+
         </Border>
+
+
     </Grid>
             
     </Grid>

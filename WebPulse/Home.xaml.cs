@@ -81,21 +81,24 @@ namespace WebPulse
         }
         private void DisplayReleases(MyReleases listObject)
         {
+            Brush bgBrush = (Brush)Application.Current.Resources["PrimaryButtonBackgroundBrush"];
+            Brush fgBrush = (Brush)Application.Current.Resources["PrimaryButtonTextBrush"];
+            
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
-            grid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+           
             grid.Margin = new Thickness(10);
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             TextBlock nameField = new TextBlock
             {
                 Text = listObject.Name,
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Black,
+                Foreground = fgBrush,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
@@ -106,7 +109,7 @@ namespace WebPulse
                 Text = listObject.Link,
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Black,
+                Foreground = fgBrush,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center
