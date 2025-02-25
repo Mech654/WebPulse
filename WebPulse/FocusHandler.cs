@@ -48,7 +48,7 @@ namespace WebPulse
 
         private void UpdateConfig(string name, string type, string value)
         {
-            _helperCode.UpdateJsonValue(name, type, value);
+            _helperCode.UpdateSetupJsonValue(name, type, value);
         }
     }
 }

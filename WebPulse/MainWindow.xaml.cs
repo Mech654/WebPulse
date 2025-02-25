@@ -42,14 +42,14 @@ namespace WebPulse
 
 
 
-        private void SaveRelease(string currentTime, string objName, string updatedUrl)
+        private void SaveRelease(string currentTime, string objName, string updatedUrl, string number)
         {
             MyReleases release = new MyReleases
             {
                 Name = objName,
                 Time = currentTime,
                 Link = updatedUrl,
-                Count = "2"
+                Number = number
             };
 
             try
@@ -104,8 +104,9 @@ namespace WebPulse
 
             if (myObject.Method == "urlbased")
             {
-                string updatedUrl = UpdateUrl(myObject.Url, int.Parse(myObject.Count));
-                return (updatedUrl, true);  // Return updated URL and success (true)
+                bool result = await webScraper.ScrapeWebsiteAsync(UpdateUrl(myObject.Url, int.Parse(myObject.Count)));
+                string updatedUrl = UpdateUrlWithStars(myObject.Url, int.Parse(myObject.Count));
+                return (updatedUrl, result);  // Return updated URL with * * and success (true)
             }
             else if (myObject.Method == "codebased")
             {
@@ -150,7 +151,7 @@ namespace WebPulse
                     }
 
                     var first = queue.Keys[0];
-                    var obj = queue[first];
+                    var currentObj = queue[first];
                     queue.RemoveAt(0);
 
                     var delay = (int)(first - DateTime.Now).TotalMilliseconds;
@@ -163,18 +164,37 @@ namespace WebPulse
                     try
                     {
                         Debug.WriteLine("Checking for resource...");
-                        (string updatedUrl, bool isSuccess) = await LookForRelease(obj);
-
+                        (string updatedUrl, bool isSuccess) = await LookForRelease(currentObj);
 
                         if (isSuccess)
                         {
                             string currentTime = DateTime.Now.ToString();
-
                             Debug.WriteLine("Resource exists!");
 
-                            SaveRelease(currentTime, obj.Name, updatedUrl);
-                            //logic for in-app notification
-                            //logic for in-desktop notification
+                            SaveRelease(currentTime, currentObj.Name, RemoveAsterisks(updatedUrl), currentObj.Count);
+                            _helperCode.UpdateSetupJsonValue(currentObj.Name, "Url", updatedUrl);
+                            _helperCode.IncrementSetupJsonCount(currentObj.Name);
+                            // logic for in-app notification
+                            // logic for in-desktop notification
+
+                            // Refresh the JSON objects and rebuild the queue.
+                            objects = _helperCode.GetSetupJsonObjects();
+                            queue.Clear();
+                            foreach (var obj in objects)
+                            {
+                                if (obj.Enabled == "true")
+                                {
+                                    try
+                                    {
+                                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
+                                        queue.Add(nextRunTime, obj);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Error adding object to queue: {ex.Message}");
+                                    }
+                                }
+                            }
                         }
                         else
                         {
@@ -188,8 +208,8 @@ namespace WebPulse
 
                     try
                     {
-                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
-                        queue.Add(nextRunTime, obj);
+                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(currentObj.Refresh), currentObj.TimeUnit));
+                        queue.Add(nextRunTime, currentObj);
                     }
                     catch (Exception ex)
                     {
@@ -205,16 +225,8 @@ namespace WebPulse
             }
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
         
         
         #endregion
@@ -289,9 +301,17 @@ namespace WebPulse
         #endregion
         #region Utility
         
+        public static string RemoveAsterisks(string input)
+        {
+            return Regex.Replace(input, @"\*(\d+)\*", "$1");
+        }
         private string UpdateUrl(string url, int count)
         {
             return Regex.Replace(url, @"\*(\d+)\*", match => (count + 1).ToString());
+        }
+        private string UpdateUrlWithStars(string url, int count)
+        {
+            return Regex.Replace(url, @"\*(\d+)\*", match => $"*{count + 1}*");
         }
         private int ConvertToMilliseconds(int refresh, string timeUnit)
         {

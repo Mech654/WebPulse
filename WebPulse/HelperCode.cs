@@ -70,9 +70,7 @@ namespace WebPulse
             return objects;
         }
         
-        
-        
-        public void UpdateJsonValue(string targetName, string propertyName, string newValue)
+        public void UpdateSetupJsonValue(string targetName, string propertyName, string newValue)
         {
             var objects = GetSetupJsonObjects();
             if (objects == null)
@@ -86,5 +84,43 @@ namespace WebPulse
             string newJson = JsonConvert.SerializeObject(objects, Formatting.Indented);
             File.WriteAllText(GetSetupJson(), newJson);
         }
+        
+        public void UpdateReleaseJsonValue(string targetName)
+        {
+            var objects = GetReleaseJsonObjects();
+            if (objects == null)
+                return;
+            var obj = objects.FirstOrDefault(o => string.Equals(o.Name, targetName, StringComparison.OrdinalIgnoreCase));
+            if (obj == null)
+                return;
+            var prop = typeof(MyReleases).GetProperty("Count", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            if (prop != null && prop.CanWrite)
+                prop.SetValue(obj, "newValue");
+            string newJson = JsonConvert.SerializeObject(objects, Formatting.Indented);
+            File.WriteAllText(GetSetupJson(), newJson);
+        }
+        
+        public void IncrementSetupJsonCount(string targetName)
+        {
+            var objects = GetSetupJsonObjects();
+            if (objects == null)
+                return;
+            var obj = objects.FirstOrDefault(o => string.Equals(o.Name, targetName, StringComparison.OrdinalIgnoreCase));
+            if (obj == null)
+                return;
+            var countProperty = typeof(MyObject).GetProperty("Count", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+            if (countProperty != null && countProperty.CanWrite && countProperty.PropertyType == typeof(string))
+            {
+                string currentValueStr = (string)countProperty.GetValue(obj);
+                int currentValue;
+                if (!int.TryParse(currentValueStr, out currentValue))
+                    currentValue = 0;
+                countProperty.SetValue(obj, (currentValue + 1).ToString());
+            }
+            string newJson = JsonConvert.SerializeObject(objects, Formatting.Indented);
+            File.WriteAllText(GetSetupJson(), newJson);
+        }
+
+        
     }
 }
