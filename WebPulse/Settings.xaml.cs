@@ -5,13 +5,16 @@ namespace WebPulse
 {
     public partial class Settings : UserControl
     {
-        public static string Theme;
         public static string Language;
         public static string FontSize;
-
-        public Settings()
+        
+        public static MainWindow Instance { get; private set; }
+        
+        public Settings(MainWindow mainWindow)
         {
+            Instance = mainWindow;
             InitializeComponent();
+            
         }
 
 
@@ -36,10 +39,12 @@ namespace WebPulse
             if (selectedTheme == "Light")
             {
                 DarkMode.Disable();
+                Instance.Refresh_Settings();
             }
             else if (selectedTheme == "Dark")
             {
                 DarkMode.Enable();
+                Instance.Refresh_Settings();
             }
         }
 

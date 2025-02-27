@@ -5,46 +5,32 @@ using System.Threading.Tasks;
 
 namespace WebPulse
 {
-    internal class WebScraper
+    internal class WebScraper(IBrowser browser)
     {
-        private IBrowser _browser;
-
-        public WebScraper(IBrowser browser)
-        {
-            _browser = browser;
-        }
-
-        public async Task<bool> ScrapeWebsiteAsync(string url)
+        public async Task<(bool, string)> ScrapeWebsiteAsync(string url)
         {
             Debug.WriteLine("Looking for " + url + "...");
             IPage page = null;
             try
             {
-                page = await _browser.NewPageAsync();
+                page = await browser.NewPageAsync();
                 var response = await page.GoToAsync(url, WaitUntilNavigation.Networkidle0);
-                if (response != null)
+                if (response != null && (int)response.Status >= 200 && (int)response.Status < 300)
                 {
-                    Debug.WriteLine($"Response Status: {response.Status}");
-                    if ((int)response.Status >= 200 && (int)response.Status < 300)
-                    {
-                        Debug.WriteLine("Request was successful.");
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Request failed.");
-                    }
+                    Debug.WriteLine("Request was successful.");
+                    string title = await page.EvaluateExpressionAsync<string>("document.title");
+                    return (true, title);
                 }
                 else
                 {
-                    Debug.WriteLine("No response received.");
+                    Debug.WriteLine("Request failed.");
                 }
-                return false;
+                return (false, " ");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error: {ex.Message}");
-                return false;
+                return (false, " ");
             }
             finally
             {
@@ -55,12 +41,12 @@ namespace WebPulse
             }
         }
 
-        public async Task<bool> ScrapeWebsiteAsyncCode(string url, string code)
+        public async Task<(bool, string)> ScrapeWebsiteAsyncCode(string url, string code)
         {
             IPage page = null;
             try
             {
-                page = await _browser.NewPageAsync();
+                page = await browser.NewPageAsync();
                 var response = await page.GoToAsync(url, WaitUntilNavigation.Networkidle0);
                 await page.EvaluateFunctionAsync(code);
                 var navigationOptions = new NavigationOptions
@@ -69,13 +55,17 @@ namespace WebPulse
                 };
                 await page.WaitForNavigationAsync(navigationOptions);
                 var newResponse = await page.GoToAsync(page.Url);
-                bool resourceExists = (int)newResponse.Status >= 200 && (int)newResponse.Status < 300;
-                return resourceExists;
+                if ((int)newResponse.Status >= 200 && (int)newResponse.Status < 300)
+                {
+                    string title = await page.EvaluateExpressionAsync<string>("document.title");
+                    return (true, title);
+                }
+                return (false, " ");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error: {ex.Message}");
-                return false;
+                return (false, " ");
             }
             finally
             {
@@ -85,5 +75,6 @@ namespace WebPulse
                 }
             }
         }
+
     }
 }

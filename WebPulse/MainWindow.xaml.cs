@@ -18,6 +18,7 @@ namespace WebPulse
     {
         #region Variables and Constructor
 
+
         private readonly BrowserFetcher _browserFetcher;
         private IBrowser _browser;
         private readonly HelperCode _helperCode;
@@ -33,6 +34,7 @@ namespace WebPulse
 
 
         #endregion
+
         #region MainLogic
 
 
@@ -42,13 +44,14 @@ namespace WebPulse
 
 
 
-        private void SaveRelease(string currentTime, string objName, string updatedUrl, string number)
+        private void SaveRelease(string currentTime, string objName, string updatedUrl, string number, string title)
         {
             MyReleases release = new MyReleases
             {
                 Name = objName,
                 Time = currentTime,
                 Link = updatedUrl,
+                Title = title,
                 Number = number
             };
 
@@ -69,7 +72,8 @@ namespace WebPulse
                     string existingJson = File.ReadAllText(path);
 
                     // Deserialize existing JSON into a list
-                    var releaseList = JsonConvert.DeserializeObject<List<MyReleases>>(existingJson) ?? new List<MyReleases>();
+                    var releaseList = JsonConvert.DeserializeObject<List<MyReleases>>(existingJson) ??
+                                      new List<MyReleases>();
 
                     // Add the new release to the list
                     releaseList.Add(release);
@@ -97,25 +101,25 @@ namespace WebPulse
 
 
 
-        
-        private async Task<(string, bool)> LookForRelease(MyObject myObject)
+
+        private async Task<(string, bool, string)> LookForRelease(MyObject myObject)
         {
             WebScraper webScraper = new WebScraper(_browser);
 
             if (myObject.Method == "urlbased")
             {
-                bool result = await webScraper.ScrapeWebsiteAsync(UpdateUrl(myObject.Url, int.Parse(myObject.Count)));
+                (bool result, string title) = await webScraper.ScrapeWebsiteAsync(UpdateUrl(myObject.Url, int.Parse(myObject.Count)));
                 string updatedUrl = UpdateUrlWithStars(myObject.Url, int.Parse(myObject.Count));
-                return (updatedUrl, result);  // Return updated URL with * * and success (true)
+                return (updatedUrl, result, title); // Return updated URL with * * and success (true)
             }
             else if (myObject.Method == "codebased")
             {
-                bool result = await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
-                return (myObject.Url, result);  // Return the URL and the result of the scrape (true/false)
+                (bool result, string title) = await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
+                return (myObject.Url, result, title); // Return the URL and the result of the scrape (true/false)
             }
             else
             {
-                return ("", false);  // Return an empty string and false if method is not recognized
+                return ("", false, ""); // Return an empty string and false if method is not recognized
             }
         }
 
@@ -133,7 +137,9 @@ namespace WebPulse
                     {
                         try
                         {
-                            var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
+                            var nextRunTime =
+                                DateTime.Now.AddMilliseconds(
+                                    ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
                             queue.Add(nextRunTime, obj);
                         }
                         catch (Exception ex)
@@ -142,6 +148,7 @@ namespace WebPulse
                         }
                     }
                 }
+
                 while (true)
                 {
                     if (queue.Count == 0)
@@ -164,14 +171,14 @@ namespace WebPulse
                     try
                     {
                         Debug.WriteLine("Checking for resource...");
-                        (string updatedUrl, bool isSuccess) = await LookForRelease(currentObj);
+                        (string updatedUrl, bool isSuccess, string title) = await LookForRelease(currentObj);
 
                         if (isSuccess)
                         {
                             string currentTime = DateTime.Now.ToString();
                             Debug.WriteLine("Resource exists!");
 
-                            SaveRelease(currentTime, currentObj.Name, RemoveAsterisks(updatedUrl), currentObj.Count);
+                            SaveRelease(currentTime, currentObj.Name, RemoveAsterisks(updatedUrl), currentObj.Count, title);
                             _helperCode.UpdateSetupJsonValue(currentObj.Name, "Url", updatedUrl);
                             _helperCode.IncrementSetupJsonCount(currentObj.Name);
                             // logic for in-app notification
@@ -186,7 +193,9 @@ namespace WebPulse
                                 {
                                     try
                                     {
-                                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh), obj.TimeUnit));
+                                        var nextRunTime =
+                                            DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(obj.Refresh),
+                                                obj.TimeUnit));
                                         queue.Add(nextRunTime, obj);
                                     }
                                     catch (Exception ex)
@@ -208,7 +217,9 @@ namespace WebPulse
 
                     try
                     {
-                        var nextRunTime = DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(currentObj.Refresh), currentObj.TimeUnit));
+                        var nextRunTime =
+                            DateTime.Now.AddMilliseconds(ConvertToMilliseconds(int.Parse(currentObj.Refresh),
+                                currentObj.TimeUnit));
                         queue.Add(nextRunTime, currentObj);
                     }
                     catch (Exception ex)
@@ -227,16 +238,17 @@ namespace WebPulse
 
 
 
-        
-        
+
+
         #endregion
+
         #region Navigationlevel
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new Home();
         }
-        
+
         private void Monitor_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new Monitor();
@@ -244,44 +256,56 @@ namespace WebPulse
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Settings();
+            MainContent.Content = new Settings(this);
         }
-        
+
+        public void Refresh_Settings()
+        {
+            MainContent.Content = new Settings(this);
+        }
+
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
-        
+
         private void MinimizeApp(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-        private void MaximizeApp(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+
+        private void MaximizeApp(object sender, RoutedEventArgs e) => WindowState =
+            WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+
         private void CloseApp(object sender, RoutedEventArgs e) => Close();
-        
+
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
-        
+
         protected override async void OnClosed(EventArgs e)
         {
             if (_browser != null)
             {
                 await _browser.CloseAsync();
             }
+
             base.OnClosed(e);
         }
-        
+
         #endregion
+
         #region DoOnce
-        
+
         private async Task DownloadBrowserOnce()
         {
             await _browserFetcher.DownloadAsync();
         }
+
         private async Task LaunchBrowserOnce()
         {
             _browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
         }
+
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             await DownloadBrowserOnce();
@@ -289,30 +313,35 @@ namespace WebPulse
             Start_Monitoring();
             Debug.WriteLine("Starting");
         }
+
         private async void Start_Monitoring()
         {
             await Monitoring_loop();
         }
-        
-        
-        
-        
+
+
+
+
 
         #endregion
+
         #region Utility
-        
+
         public static string RemoveAsterisks(string input)
         {
             return Regex.Replace(input, @"\*(\d+)\*", "$1");
         }
+
         private string UpdateUrl(string url, int count)
         {
             return Regex.Replace(url, @"\*(\d+)\*", match => (count + 1).ToString());
         }
+
         private string UpdateUrlWithStars(string url, int count)
         {
             return Regex.Replace(url, @"\*(\d+)\*", match => $"*{count + 1}*");
         }
+
         private int ConvertToMilliseconds(int refresh, string timeUnit)
         {
             return timeUnit switch
@@ -321,11 +350,12 @@ namespace WebPulse
                 "Hours" => refresh * 60 * 60 * 1000,
                 "Days" => refresh * 24 * 60 * 60 * 1000,
                 "Weeks" => refresh * 7 * 24 * 60 * 60 * 1000,
-                _ => 60 * 1000 
+                _ => 60 * 1000
             };
-        }        
+        }
 
         #endregion
-        
+
     }
 }
+
