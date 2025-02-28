@@ -8,9 +8,9 @@
             <Color x:Key="PrimaryButtonBackgroundColor">#E4E5F1</Color>
             <Color x:Key="PrimaryButtonTextColor">#484B6A</Color>
             <Color x:Key="TextBlockColor">#484B6A</Color>
-            <Color x:Key="ControlBackgroundColor">#ebebeb</Color>
+            <Color x:Key="ControlBackgroundColor">#FDFAEC</Color>
             <Color x:Key="MainContentBackgroundColor"> #FFFFFF</Color>
-            <Color x:Key="BorderLineColor"> #00202020</Color>
+            <Color x:Key="BorderLineColor"> PaleTurquoise</Color>
             
             <!-- Dark Colors -->
             <Color x:Key="DarkPrimaryButtonBackgroundColor">#333333</Color>

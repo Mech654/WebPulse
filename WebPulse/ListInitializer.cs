@@ -221,7 +221,7 @@ namespace WebPulse
 
 
 
-            unit.Items.Add(listObject.TimeUnit);
+
             unit.Items.Add("Minutes");
             unit.Items.Add("Hours");
             unit.Items.Add("Days");

@@ -30,6 +30,7 @@ namespace WebPulse
             _helperCode = new HelperCode();
             _browserFetcher = new BrowserFetcher();
             Loaded += MainWindow_Loaded;
+            DarkMode.Enable();
         }
 
 
@@ -114,8 +115,8 @@ namespace WebPulse
             }
             else if (myObject.Method == "codebased")
             {
-                (bool result, string title) = await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
-                return (myObject.Url, result, title); // Return the URL and the result of the scrape (true/false)
+                ( bool result, string url, string title) = await webScraper.ScrapeWebsiteAsyncCode(myObject.Url, myObject.Code);
+                return (url, result, title); // Return the URL and the result of the scrape (true/false)
             }
             else
             {

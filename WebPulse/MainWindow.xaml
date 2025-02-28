@@ -52,7 +52,7 @@
         </Grid>
         
         <!-- Left Column with Border (navigation area) -->
-        <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,0,0.8,0" BorderBrush="{DynamicResource BorderLineBrush}">
+        <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,0,0,0" BorderBrush="{DynamicResource BorderLineBrush}">
             <Grid>
                 <!-- Navigation StackPanel -->
                 <StackPanel Background="{DynamicResource PrimaryButtonBackgroundBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

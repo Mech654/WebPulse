@@ -41,7 +41,7 @@ namespace WebPulse
             }
         }
 
-        public async Task<(bool, string)> ScrapeWebsiteAsyncCode(string url, string code)
+        public async Task<(bool, string, string)> ScrapeWebsiteAsyncCode(string url, string code)
         {
             IPage page = null;
             try
@@ -58,14 +58,15 @@ namespace WebPulse
                 if ((int)newResponse.Status >= 200 && (int)newResponse.Status < 300)
                 {
                     string title = await page.EvaluateExpressionAsync<string>("document.title");
-                    return (true, title);
+                    string currentUrl = page.Url;
+                    return (true, title, currentUrl);
                 }
-                return (false, " ");
+                return (false, " ", " ");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error: {ex.Message}");
-                return (false, " ");
+                return (false, " ", " ");
             }
             finally
             {

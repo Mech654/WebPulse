@@ -14,7 +14,24 @@ When setting up a monitoring task, users can choose between two options:
 
 At its core, WebPulse uses the Puppeteer library to perform web scraping, allowing it to fetch and track content updates from the specified websites. This approach ensures that users can monitor a wide variety of online content with minimal effort, regardless of how the website is structured.
 
+# Contributions
 
+The core functions of WebPulse is finally done, yet the app isn't. With only using the app for mere second will you find stuff that needs to be worked on. 
+A wise wizard man once said "Contributions is what makes open source great". 
+Here are some contribution examples you can work on:
+
+1. Ugly Hover affects on multiple ui components.
+2. Save user settings and use them on load.
+3. Generally any UI improvements is appreciated. 
+4. Make the white version of the close, minimize, window buttons and make them work. 
+5. If you want to, you can make the tutorial playground website where the user can learn how to use the app.
+
+
+Extra: Remember to make your own personal theme resources and make them a theme option 😉
+
+Contract for any questions:
+1. Drahmet2007@hotmail.com
+2. Create an issue
 
 # Project Roadmap
 

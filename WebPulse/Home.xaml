@@ -31,45 +31,69 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-
-
-
     </UserControl.Resources>
     <Grid Background="{DynamicResource MainContentBackground}">
-        
      <Grid.RowDefinitions>
        <RowDefinition Height="Auto"/>
        <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
     <Grid Grid.Row="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
-        </Grid.ColumnDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Border Grid.Row="0" BorderBrush="{DynamicResource BorderLineBrush}" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
-                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                </StackPanel>
-            </Border>
-        </Grid>
+      <!-- First item -->
+      <Border Grid.Column="0"
+              BorderBrush="{DynamicResource BorderLineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Height="100"
+              Background="{DynamicResource ControlBackgroundBrush}"
+              Margin="50,50,20,10"
+              HorizontalAlignment="Stretch"
+              Opacity="1">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+          <TextBlock x:Name="Releases" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     FontSize="30" Foreground="#047AFF" Text="30" FontWeight="Bold" ToolTip="Releases"/>
+        </StackPanel>
+      </Border>
 
-        <Grid Grid.Column="1">
-            <Border Grid.Row="0" BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
-                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                </StackPanel>
-            </Border>
-        </Grid>
+      <!-- Second item -->
+      <Border Grid.Column="1"
+              BorderBrush="{DynamicResource BorderLineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Height="100"
+              Background="{DynamicResource ControlBackgroundBrush}"
+              Margin="10,50,10,10"
+              HorizontalAlignment="Stretch"
+              Opacity="1">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+          <TextBlock x:Name="TotalReleases" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     FontSize="30" Foreground="#047AFF" Text="30" FontWeight="Bold" ToolTip="Total Releases"/>
+        </StackPanel>
+      </Border>
 
-        <Grid Grid.Column="2">
-            <Border Grid.Row="0" BorderBrush="{DynamicResource BorderLineBrush}" BorderThickness="1" CornerRadius="10" Width="200" Height="100" Background="{DynamicResource ControlBackgroundBrush}" Margin="10,50,10,10" Opacity="1">
-                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                </StackPanel>
-            </Border>
-        </Grid>
+      <!-- Third item -->
+      <Border Grid.Column="2"
+              BorderBrush="{DynamicResource BorderLineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Height="100"
+              Background="{DynamicResource ControlBackgroundBrush}"
+              Margin="20,50,50,10"
+              HorizontalAlignment="Stretch"
+              Opacity="1">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+          <TextBlock x:Name="Monitoring" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     FontSize="30" Foreground="#047AFF" Text="30" FontWeight="Bold" ToolTip="Active Monitoring"/>
+        </StackPanel>
+      </Border>
+      
+      
     </Grid>
     <Grid Grid.Row="1">
         <Border BorderThickness="1" BorderBrush="{DynamicResource BorderLineBrush}" 
@@ -92,7 +116,5 @@
 
 
     </Grid>
-            
     </Grid>
 </UserControl> 
-<!-- Left, Top, Right, Bottom -->

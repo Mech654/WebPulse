@@ -8,13 +8,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 using WebPulse.models;
 
 namespace WebPulse
 {
-    public partial class Monitor : UserControl 
+    public partial class Monitor 
     {
         private readonly HelperCode _helperCode;
         private readonly ListInitializer _listInitializer;
@@ -107,7 +105,7 @@ namespace WebPulse
         {
             string refresh = Refreshrate.Text;
             string selectedItem = (TimeUnit.SelectedItem as ComboBoxItem)?.Content as string;
-            bool isInteger = int.TryParse(refresh, out int result);
+            bool isInteger = int.TryParse(refresh, out _);
 
             if (isInteger)
             {
@@ -136,6 +134,7 @@ namespace WebPulse
         }
 
         #endregion
+        
        
 
         private void SaveJson(Dictionary<string, string> configItems)
@@ -148,7 +147,7 @@ namespace WebPulse
                 string directory = Path.GetDirectoryName(path);
                 if (!Directory.Exists(directory))
                 {
-                    Directory.CreateDirectory(directory);
+                    if (directory != null) Directory.CreateDirectory(directory);
                 }
 
                 List<Dictionary<string, string>> jsonList = new List<Dictionary<string, string>>();
@@ -176,20 +175,18 @@ namespace WebPulse
         {
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(cleanedUrl);
+                using HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(cleanedUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Debug.WriteLine("Valid URL.");
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Invalid URL.");
-                        return false;
-                    }
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Valid URL.");
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine("Invalid URL.");
+                    return false;
                 }
             }
             catch (Exception ex)

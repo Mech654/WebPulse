@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,9 +14,7 @@ namespace WebPulse
 
     public partial class Home : UserControl
     {
-        private string ActiveSeeking { get; set; } = " ";
-        private string ActiveFound { get; set; } = " ";
-        private string ActiveFoundAll { get; set; } = " ";
+
         private readonly HelperCode _helperCode = new HelperCode();
         public Home()
         {
@@ -25,33 +25,45 @@ namespace WebPulse
         private void DisplayReleases()
         {
             CreateListDescriptionGridAndItems();
-            //I will return here later. Do: 1 . go through every releases in the json file i will make. 2. send it the method
             var objects = _helperCode.GetReleaseJsonObjects();
 
-            int x = 1;
-            string y = "0";
-            foreach (var obj in objects)
+            Dictionary<string, int> groups = new Dictionary<string, int>();
+
+            int y = 0;
+            foreach (MyReleases obj in objects)
             {
-                Debug.WriteLine("Atleast this will work right?");
-                if (y == "0")
+                y++;
+                if (groups.ContainsKey(obj.Name))
                 {
-                    Debug.WriteLine("FIRST TIME");
-                    y = obj.Name;
-                    x++;
-                }
-                else if (obj.Name == y)
-                {
-                    x++;
-                    Debug.WriteLine("SECOND TIME");
+                    groups[obj.Name] += 1;
                 }
                 else
                 {
-                    Debug.WriteLine("THIRD TIME");
-                    y = obj.Name;
-                    DisplayReleases(obj, x);
-                    x = 1;
+                    groups.Add(obj.Name, 1);
                 }
             }
+            TotalReleases.Text = y.ToString();
+
+            y = 0;
+            foreach (string key in groups.Keys)
+            {
+                var foundObject = objects.FirstOrDefault(o => o.Name == key);
+                DisplayReleases(foundObject, groups[key]);
+                y++;
+            }
+            Releases.Text = y.ToString();
+
+            var objects2 = _helperCode.GetSetupJsonObjects();
+
+            y = 0;
+            foreach (var obj in objects2)
+            {
+                y++;
+            }
+            
+            Monitoring.Text = y.ToString();
+
+
         }
 
         private void CreateListDescriptionGridAndItems()
@@ -64,7 +76,8 @@ namespace WebPulse
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.8, GridUnitType.Star) });
             
             
             Brush primaryTextBrush = (Brush)Application.Current.Resources["PrimaryButtonTextBrush"];
@@ -73,7 +86,7 @@ namespace WebPulse
             TextBlock nameField = new TextBlock
             {
                 Text = "Name",
-                FontSize = 14,
+                FontSize = 12,
                 Foreground = primaryTextBrush,
                 FontWeight = FontWeights.Bold,
                 Background = Brushes.Transparent,
@@ -83,8 +96,9 @@ namespace WebPulse
 
             TextBlock releasesField = new TextBlock
             {
-                Text = "Releases",
-                FontSize = 14,
+                Text = "First release",
+                FontSize = 12,
+                TextWrapping = TextWrapping.Wrap,
                 Foreground = primaryTextBrush,
                 FontWeight = FontWeights.Bold,
                 Background = Brushes.Transparent,
@@ -95,7 +109,8 @@ namespace WebPulse
             TextBlock count = new TextBlock
             {
                 Text = "Total Releases",
-                FontSize = 14,
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 12,
                 Foreground = primaryTextBrush,
                 FontWeight = FontWeights.Bold,
                 Background = Brushes.Transparent,
@@ -103,15 +118,27 @@ namespace WebPulse
                 TextAlignment = TextAlignment.Center
             };
             
-
-
+            TextBlock number = new TextBlock
+            {
+                Text = "Next",
+                FontSize = 12,
+                Foreground = primaryTextBrush,
+                FontWeight = FontWeights.Bold,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextAlignment = TextAlignment.Center
+            };
+            
             Grid.SetColumn(nameField, 0);
-            Grid.SetColumn(releasesField, 2);
             Grid.SetColumn(count, 1);
+            Grid.SetColumn(number, 3);
+            Grid.SetColumn(releasesField, 2);
 
             grid.Children.Add(nameField);
             grid.Children.Add(releasesField);
             grid.Children.Add(count);
+            grid.Children.Add(number);
+            
             ReleaseList.Children.Add(grid);
         }
         private void DisplayReleases(MyReleases listObject, int number)
@@ -122,16 +149,17 @@ namespace WebPulse
             Grid grid = new Grid();
             grid.Height = Double.NaN;
             grid.VerticalAlignment = VerticalAlignment.Stretch;
-           
             grid.Margin = new Thickness(10);
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.8, GridUnitType.Star) });
 
             TextBlock nameField = new TextBlock
             {
                 Text = listObject.Name,
+                TextWrapping = TextWrapping.Wrap,
                 FontSize = 10,
                 FontWeight = FontWeights.Bold,
                 Foreground = fgBrush,
@@ -145,13 +173,14 @@ namespace WebPulse
                 Text = listObject.Title,
                 FontSize = 10,
                 FontWeight = FontWeights.Bold,
-                
                 Foreground = fgBrush,
                 Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextWrapping = TextWrapping.Wrap,
                 TextAlignment = TextAlignment.Center
             };
+            releasesField.PreviewMouseLeftButtonDown  += (s, e) => Process.Start(new ProcessStartInfo(listObject.Link) { UseShellExecute = true });
+            
 
             TextBlock count = new TextBlock
             {
@@ -165,14 +194,29 @@ namespace WebPulse
                 TextWrapping = TextWrapping.Wrap,
                 TextAlignment = TextAlignment.Center
             };
+            
+            TextBlock episode = new TextBlock
+            {
+                Text = listObject.Number,
+                FontSize = 10,
+                FontWeight = FontWeights.Bold,
+
+                Foreground = fgBrush,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center
+            };
 
             Grid.SetColumn(nameField, 0);
-            Grid.SetColumn(releasesField, 2);
             Grid.SetColumn(count, 1);
+            Grid.SetColumn(episode, 2);
+            Grid.SetColumn(releasesField, 3);
 
             grid.Children.Add(nameField);
             grid.Children.Add(releasesField);
             grid.Children.Add(count);
+            grid.Children.Add(episode);
 
             ReleaseList.Children.Add(grid);
         }
