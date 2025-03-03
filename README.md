@@ -25,6 +25,7 @@ Here are some contribution examples you can work on:
 3. Generally any UI improvements is appreciated. 
 4. Make the white version of the close, minimize, window buttons and make them work. 
 5. If you want to, you can make the tutorial playground website where the user can learn how to use the app.
+6. User notifications when a release is found. And a link directly to the resource. 
 
 
 Extra: Remember to make your own personal theme resources and make them a theme option 😉
