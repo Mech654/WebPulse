@@ -24,12 +24,12 @@ Here are some contribution examples you can work on:
 2. Save user settings and use them on load.
 3. Generally any UI improvements is appreciated. 
 4. Make the white version of the close, minimize, window buttons and make them work. 
-5. If you want to, you can make the tutorial playground website where the user can learn how to use the app.
+5. You can make the tutorial playground website where the user can learn how to use the app.
 6. User notifications when a release is found. And a link directly to the resource. 
+Note: Nearly all of these issues have a solid foundation to work on and/or even direct examples to how to solve. it 
 
-
-Extra: Remember to make your own personal theme resources and make them a theme option 😉
-
+Extra: Remember to make your own personal theme resource and make it a theme option 😉
+ 
 Contract for any questions:
 1. Drahmet2007@hotmail.com
 2. Create an issue
@@ -39,18 +39,18 @@ Contract for any questions:
 <!-- GUI part of the WebPulse project, covering front-end features and instructions -->
 
 ## 1. Home Section
-   - **New Release**: View and manage the latest content released.
-   - **Total New Releases**: See the overall number of new releases tracked by the app.
-   - **Watching**: Monitor content that you are currently tracking for updates.
+   - **New Release**: View and manage the latest content released. ✔️ 
+   - **Total New Releases**: See the overall number of new releases tracked by the app. ✔️ 
+   - **Watching**: Monitor content that you are currently tracking for updates. ✔️ 
 
 ## 2. Monitoring
-   - **Add New Monitoring**: Instructions on adding new items to monitor.
-   - **All Monitoring Lists**: View a complete list of all the content being monitored.
+   - **Add New Monitoring**: Instructions on adding new items to monitor. ✔️ 
+   - **All Monitoring Lists**: View a complete list of all the content being monitored. ✔️ 
    - **Guide to Add Monitoring**: Step-by-step guide on how to add a new monitoring entry.
-
+ 
 ## 3. Help
    - **Website Guide to Add Monitoring**:
-     - **Method 1**: Instructions on using Method 1 for adding new monitoring.
+     - **Method 1**: Instructions on using Method 1 for adding new monitoring. ✔
      - **Method 2**: Instructions on using Method 2 for adding new monitoring.
 
 ## 4. Settings
@@ -59,14 +59,14 @@ Contract for any questions:
 <!-- Backend stuff of the WebPulse project, covering the back-end functionality -->
 
 ## 5. Navigation
-   - **Navigation**: Manage and optimize the app's navigation structure and flow.
+   - **Navigation**: Manage and optimize the app's navigation structure and flow. ✔️ 
 
 ## 6. Monitoring Logic Using Puppeteer
-   - **Monitoring Logic**: Implement the core logic for monitoring websites using Puppeteer to scrape and track updates.
+   - **Monitoring Logic**: Implement the core logic for monitoring websites using Puppeteer to scrape and track updates. ✔️ (for url-based)
 
 ## 7. Data Integration into GUI
-   - **Data Integration**: Seamlessly integrate the backend data into the GUI for real-time updates and user interaction.
-
+   - **Data Integration**: Seamlessly integrate the backend data into the GUI for real-time updates and user interaction. ✔️
+     
 ## 8. Notifications
    - **Notifications**: Implement notifications to alert users about new content, updates, or changes to the monitored items.
 
