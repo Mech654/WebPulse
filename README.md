@@ -46,15 +46,15 @@ Contract for any questions:
 ## 2. Monitoring
    - **Add New Monitoring**: Instructions on adding new items to monitor. ✔️ 
    - **All Monitoring Lists**: View a complete list of all the content being monitored. ✔️ 
-   - **Guide to Add Monitoring**: Step-by-step guide on how to add a new monitoring entry.
+   - **Guide to Add Monitoring**: Step-by-step guide on how to add a new monitoring entry. ✔️ 
  
 ## 3. Help
    - **Website Guide to Add Monitoring**:
-     - **Method 1**: Instructions on using Method 1 for adding new monitoring. ✔
+     - **Method 1**: Instructions on using Method 1 for adding new monitoring. 
      - **Method 2**: Instructions on using Method 2 for adding new monitoring.
 
 ## 4. Settings
-   - **Some Settings**: Overview of configurable settings for personalizing the app.
+   - **Some Settings**: Overview of configurable settings for personalizing the app. ✔️ 
 
 <!-- Backend stuff of the WebPulse project, covering the back-end functionality -->
 
