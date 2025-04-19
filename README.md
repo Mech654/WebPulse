@@ -1,6 +1,6 @@
 # WebPulse
 
-
+Note: This project is discontinued. If you are interested in making contributions for tranning purposes or for fun, you can still make PRs.
 
 
 # Project Idea
